@@ -1,0 +1,50 @@
+{
+  "total_images": 350,
+  "chunks": [
+    {
+      "file": "assets/img-data-01.js",
+      "images": 30,
+      "bytes": 2693867
+    },
+    {
+      "file": "assets/img-data-02.js",
+      "images": 38,
+      "bytes": 2681251
+    },
+    {
+      "file": "assets/img-data-03.js",
+      "images": 60,
+      "bytes": 2687149
+    },
+    {
+      "file": "assets/img-data-04.js",
+      "images": 61,
+      "bytes": 2674091
+    },
+    {
+      "file": "assets/img-data-05.js",
+      "images": 61,
+      "bytes": 2649132
+    },
+    {
+      "file": "assets/img-data-06.js",
+      "images": 34,
+      "bytes": 2628439
+    },
+    {
+      "file": "assets/img-data-07.js",
+      "images": 27,
+      "bytes": 2622230
+    },
+    {
+      "file": "assets/img-data-08.js",
+      "images": 28,
+      "bytes": 2656237
+    },
+    {
+      "file": "assets/img-data-09.js",
+      "images": 11,
+      "bytes": 1013087
+    }
+  ]
+}

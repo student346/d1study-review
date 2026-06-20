@@ -1,0 +1,2357 @@
+<!DOCTYPE html>
+<!-- GitHub Pages ready package: static single-page site. -->
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>𝐃1𝐒𝐓𝐔𝐃𝐘 — Student Reviews</title>
+<meta name="description" content="D1STUDY student reviews and feedback showcase.">
+<meta name="theme-color" content="#1a237e">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins','Noto Sans Bengali',sans-serif;background:var(--bg);color:var(--text);transition:background .4s}
+
+/* ── DYNAMIC THEME (set by JS on load) ── */
+:root{
+  --primary:#1a237e;--primary2:#283593;--accent:#ff6f00;
+  --gold:#ffd600;--green:#00c853;--bg:#eef2ff;
+  --card:#fff;--text:#1a1a2e;--muted:#5c6bc0;
+  --dot-inactive:#c5cae9;
+}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,var(--primary),var(--primary2) 60%);padding:38px 20px 46px;text-align:center;position:relative;overflow:hidden;transition:background .5s}
+.hero::before{content:'';position:absolute;top:-70px;right:-70px;width:240px;height:240px;background:rgba(255,214,0,.07);border-radius:50%}
+.hero::after{content:'';position:absolute;bottom:-80px;left:-40px;width:290px;height:290px;background:rgba(255,111,0,.06);border-radius:50%}
+
+.hero-badge {
+  display: inline-block;
+  background: var(--gold);
+  color: #1a1a2e;
+  padding: 7px 25px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 18px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.hero h1{font-size:clamp(20px,5vw,36px);font-weight:800;color:#fff;line-height:1.25;margin-bottom:8px}
+.hero h1 span{color:var(--gold)}
+.hero p{color:rgba(255,255,255,.72);font-size:13.5px;font-family:'Noto Sans Bengali',sans-serif;max-width:460px;margin:0 auto 24px}
+.hero-stats{display:flex;justify-content:center;gap:28px;flex-wrap:wrap}
+.stat-num{font-size:26px;font-weight:800;color:var(--gold);line-height:1}
+.stat-label{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1px;font-family:'Noto Sans Bengali',sans-serif}
+
+/* ── TAB NAV ── */
+.tab-wrap{background:var(--primary);position:sticky;top:0;z-index:100;box-shadow:0 2px 14px rgba(0,0,0,.25);transition:background .4s}
+.tab-nav{display:flex;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;padding:0 10px}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{background:none;border:none;color:rgba(255,255,255,.5);font-family:'Noto Sans Bengali','Poppins',sans-serif;font-size:12.5px;font-weight:600;padding:13px 16px;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:all .25s}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-btn .cnt{background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px;margin-left:5px;transition:background .4s}
+
+/* ── CONTENT AREA ── */
+.content{max-width:860px;margin:0 auto;padding:26px 14px 60px}
+.panel{display:none}.panel.active{display:block}
+
+/* ── YEAR BLOCK ── */
+.year-block{margin-bottom:34px}
+.year-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.year-pill{background:linear-gradient(135deg,var(--primary),var(--primary2));color:var(--gold);font-size:14px;font-weight:800;padding:6px 18px;border-radius:25px;letter-spacing:1px;white-space:nowrap;transition:background .4s}
+.year-line{flex:1;height:2px;background:linear-gradient(90deg,var(--primary),transparent)}
+.year-count{font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap}
+
+/* ── HIGHLIGHT BAR ── */
+.hl-bar{border-radius:12px;padding:14px 18px;margin-bottom:18px;display:flex;gap:10px;align-items:center;border:1px solid rgba(0,0,0,.08)}
+.hl-icon{font-size:20px;flex-shrink:0}
+.hl-text{font-family:'Noto Sans Bengali',sans-serif;font-size:13px;font-weight:600}
+
+/* ── SLIDER ── */
+.slider-outer{position:relative}
+.slider-box{overflow:hidden;border-radius:18px}
+.slider-track{display:flex;transition:transform .42s cubic-bezier(.77,0,.18,1);will-change:transform}
+.slide{min-width:100%;padding:0 2px}
+
+/* ── SCREENSHOT CARD ── */
+.sc-card{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:0 4px 22px rgba(0,0,0,.11);border:1px solid rgba(0,0,0,.06);transition:box-shadow .3s}
+.sc-topbar{padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:8px;transition:background .4s}
+.sc-dots span{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:4px}
+.sc-name{color:#fff;font-size:13px;font-weight:700;flex:1;font-family:'Noto Sans Bengali',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-tag{font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;flex-shrink:0}
+.tag-wbcs{background:var(--gold);color:#111}
+.tag-officers{background:#2962ff;color:#fff}
+.tag-misc{background:#ff6f00;color:#fff}
+.tag-clerk{background:#00c853;color:#fff}
+.sc-score{background:rgba(255,255,255,.18);color:var(--gold);font-size:11px;font-weight:800;padding:3px 12px;border-radius:10px;margin-left:5px;flex-shrink:0;letter-spacing:.6px}
+
+/* ── TOP BADGE for "positive" ── */
+.top-badge{background:linear-gradient(90deg,#ff6f00,#ffd600);color:#111;font-size:10px;font-weight:800;padding:3px 10px;border-radius:10px;letter-spacing:.5px;display:inline-block;margin-left:6px;flex-shrink:0}
+.selected-badge{background:linear-gradient(90deg,#00c853,#b2ff59);color:#063b12}
+
+.sc-img-wrap{background:#f4f4f4;cursor:zoom-in;overflow:hidden;max-height:500px;display:flex;align-items:center;justify-content:center}
+.sc-img-wrap img{width:100%;max-height:500px;object-fit:contain;display:block;transition:transform .3s}
+.sc-img-wrap:hover img{transform:scale(1.015)}
+.sc-footer{padding:10px 18px 14px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #f0f0f0}
+.stars{color:var(--gold);font-size:15px;letter-spacing:2px}
+.wa-tag{font-size:11px;color:#25D366;font-weight:600}
+.sc-date{font-size:11px;color:#aaa}
+
+/* ── CONTROLS ── */
+.controls{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px}
+.arr{background:var(--primary);color:#fff;border:none;width:38px;height:38px;border-radius:50%;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .1s;flex-shrink:0}
+.arr:hover{background:var(--accent);transform:scale(1.1)}
+.arr:disabled{background:#ccc;cursor:not-allowed;transform:none}
+.dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--dot-inactive);cursor:pointer;border:none;padding:0;transition:all .25s}
+.dot.active{background:var(--primary);transform:scale(1.5)}
+.counter{font-size:11px;color:var(--muted);font-weight:700;min-width:36px;text-align:center}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:40px 20px;color:var(--muted);font-family:'Noto Sans Bengali',sans-serif;font-size:14px;background:var(--card);border-radius:16px;border:2px dashed #c5cae9}
+
+/* ── ADD HINT ── */
+.add-hint{margin-top:36px;text-align:center;padding:22px 20px;background:var(--card);border-radius:14px;border:2px dashed #c5cae9}
+.add-hint p{font-family:'Noto Sans Bengali',sans-serif;color:var(--muted);font-size:12.5px;margin-bottom:10px}
+
+/* ── THEME INDICATOR ── */
+.theme-bar{text-align:right;padding:6px 20px;font-size:11px;color:rgba(255,255,255,.5);background:var(--primary);font-style:italic;letter-spacing:.5px}
+
+/* ── LIGHTBOX ── */
+.lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:999;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
+.lb.open{display:flex}
+.lb img{max-width:100%;max-height:92vh;border-radius:10px;object-fit:contain;cursor:default}
+.lb-close{position:absolute;top:14px;right:18px;background:none;border:none;color:#fff;font-size:34px;cursor:pointer;line-height:1;z-index:10}
+.lb-arr{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;font-size:28px;cursor:pointer;padding:10px 14px;border-radius:8px;transition:background .2s}
+.lb-arr:hover{background:rgba(255,255,255,.3)}
+.lb-prev{left:10px}.lb-next{right:10px}
+
+/* ── EXAM GROUP HEADER (in All panel) ── */
+.exam-group-header{font-family:'Noto Sans Bengali',sans-serif;font-size:16px;font-weight:700;color:var(--primary);margin-bottom:14px;padding:8px 14px;background:var(--card);border-radius:10px;border-left:4px solid var(--primary);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+
+@media(max-width:480px){
+  .hero{padding:24px 14px 32px}
+  .hero-stats{gap:18px}
+  .stat-num{font-size:22px}
+  .tab-btn{padding:11px 15px;font-size:12px}
+  .sc-name{font-size:12px}
+}
+
+/* ── YEAR FILTER ── */
+.year-bar{display:flex;justify-content:center;align-items:center;gap:10px;padding:14px 16px;background:var(--bg);flex-wrap:wrap}
+.year-bar label{font-family:'Noto Sans Bengali',sans-serif;font-size:12.5px;font-weight:600;color:var(--muted)}
+.year-bar select{background:var(--card);color:var(--text);border:1.5px solid var(--primary);border-radius:20px;padding:7px 14px;font-size:12px;font-weight:700;outline:none;cursor:pointer;font-family:'Poppins','Noto Sans Bengali',sans-serif;transition:border-color .2s}
+.year-bar select:focus{border-color:var(--accent)}
+.year-bar select option{font-size:12px}
+.year-block.hidden{display:none}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge" id="theme-label">✦ Student Reviews — 𝐃1𝐒𝐓𝐔𝐃𝐘 ✦</div>
+  <h1>আমাদের <span> TEST SERIES </span>-এর<br>সাফল্যের গল্প</h1>
+  <p> WBCS, Miscellaneous ও Clerkship পরীক্ষার্থীদের নিজের কথায় কিছু ফিডব্যাক</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num" id="total-stat">279</div><div class="stat-label">মোট রিভিউ</div></div>
+    <div class="stat"><div class="stat-num">191+</div><div class="stat-label">সর্বোচ্চ স্কোর</div></div>
+    <div class="stat"><div class="stat-num">⭐ 5.0</div><div class="stat-label">গড় রেটিং</div></div>
+    <div class="stat"><div class="stat-num">2024</div><div class="stat-label">সর্বশেষ ব্যাচ</div></div>
+  </div>
+</div>
+
+<div class="tab-wrap">
+  <nav class="tab-nav">
+    <button class="tab-btn active" data-tab="wbcs">🏆 WBCS <span class="cnt" id="cnt-wbcs">182</span></button>
+    <button class="tab-btn" data-tab="officers">🎖️ OFFICERS <span class="cnt" id="cnt-officers">10</span></button>
+    <button class="tab-btn" data-tab="clerk">📝 Clerkship <span class="cnt" id="cnt-clerk">34</span></button>
+    <button class="tab-btn" data-tab="misc">📋 Miscellaneous <span class="cnt" id="cnt-misc">63</span></button>
+    <button class="tab-btn" data-tab="all">🌟 সব রিভিউ <span class="cnt" id="cnt-all">279</span></button>
+  </nav>
+</div>
+
+<div class="year-bar">
+  <label for="year-filter">📅 ব্যাচ অনুযায়ী দেখুন:</label>
+  <select id="year-filter">
+    <option value="all">সব বছর</option>
+    <option value="2024" selected>2024 batch</option>
+    <option value="2023">2023 batch</option>
+    <option value="2022">2022 batch</option>
+  </select>
+</div>
+
+<div class="content">
+  <div class="panel active" id="panel-wbcs"></div>
+  <div class="panel" id="panel-officers"></div>
+  <div class="panel" id="panel-clerk"></div>
+  <div class="panel" id="panel-misc"></div>
+  <div class="panel" id="panel-all"></div>
+  <div class="add-hint">
+    <p>📌✨ 𝐃1𝐒𝐓𝐔𝐃𝐘 Test Series Enrollment করতে এক্ষনি WhatsApp করুন: 8293272301  ✨(𝐓𝐞𝐥𝐞𝐠𝐫𝐚𝐦 - 𝐖𝐁𝐂𝐒 𝐀𝐒𝐏𝐈𝐑𝐀𝐍𝐓)
+<br>🏆 𝐃1𝐒𝐓𝐔𝐃𝐘 Test Series = অফুরন্ত কমনের সম্ভার। 🎯 𝐃1𝐒𝐓𝐔𝐃𝐘 Test Series শুধু একটি Test Series নয়, সফলতার পথে আপনার বিশ্বস্ত সঙ্গী।🚀𝗘𝘃𝗲𝗿𝘆 𝗔𝗰𝗵𝗶𝗲𝘃𝗲𝗺𝗲𝗻𝘁 𝗧𝗲𝗹𝗹𝘀 𝗮 𝗦𝘁𝗼𝗿𝘆 𝗼𝗳 𝗗𝗲𝗱𝗶𝗰𝗮𝘁𝗶𝗼𝗻. 𝗘𝘃𝗲𝗿𝘆 𝗥𝗲𝘃𝗶𝗲𝘄 𝗥𝗲𝗳𝗹𝗲𝗰𝘁𝘀 𝗧𝗿𝘂𝘀𝘁. 𝗘𝘃𝗲𝗿𝘆 𝗦𝘂𝗰𝗰𝗲𝘀𝘀 𝗜𝗻𝘀𝗽𝗶𝗿𝗲𝘀 𝗮 𝗡𝗲𝘄 𝗕𝗲𝗴𝗶𝗻𝗻𝗶𝗻𝗴.✨ 𝗗1𝗦𝗧𝗨𝗗𝗬 — "Your Success, Our Mission.💙"</p>
+  </div>
+</div>
+
+<div class="lb" id="lb">
+  <button class="lb-close" id="lb-close">&times;</button>
+  <button class="lb-arr lb-prev" id="lb-prev">&#8592;</button>
+  <img id="lb-img" src="" alt="Review">
+  <button class="lb-arr lb-next" id="lb-next">&#8594;</button>
+</div>
+
+<!-- Image data chunks: load before main app script -->
+<script src="assets/img-data-01.js"></script>
+<script src="assets/img-data-02.js"></script>
+<script src="assets/img-data-03.js"></script>
+<script src="assets/img-data-04.js"></script>
+<script src="assets/img-data-05.js"></script>
+<script src="assets/img-data-06.js"></script>
+<script src="assets/img-data-07.js"></script>
+<script src="assets/img-data-08.js"></script>
+<script src="assets/img-data-09.js"></script>
+<script>
+/* ═══════════════════════════════════════════════════
+   EMBEDDED IMAGES (base64)
+═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════
+   IMAGE DATA
+   Loaded from assets/img-data-*.js to keep upload file-count low
+   and keep every image unchanged.
+═══════════════════════════════════════════════════ */
+const IMGS = window.IMGS || {};
+
+/* ═══════════════════════════════════════════════════
+   COLOUR THEMES — প্রতি refresh-এ random থিম
+═══════════════════════════════════════════════════ */
+const THEMES = [
+  {
+    name:"Royal Blue 💙",
+    primary:"#1a237e", primary2:"#283593", accent:"#ff6f00",
+    gold:"#ffd600", bg:"#eef2ff", muted:"#5c6bc0", dot:"#c5cae9",
+    hlBg:"linear-gradient(90deg,#fff8e1,#fffde7)", hlBorder:"#ffe082", hlText:"#5d4037"
+  },
+  {
+    name:"Forest Green 🌿",
+    primary:"#1b5e20", primary2:"#2e7d32", accent:"#ff6f00",
+    gold:"#ffd600", bg:"#e8f5e9", muted:"#388e3c", dot:"#c8e6c9",
+    hlBg:"linear-gradient(90deg,#f1f8e9,#f9fbe7)", hlBorder:"#aed581", hlText:"#33691e"
+  },
+  {
+    name:"Deep Purple 💜",
+    primary:"#4a148c", primary2:"#6a1b9a", accent:"#ff6f00",
+    gold:"#ffd600", bg:"#f3e5f5", muted:"#7b1fa2", dot:"#e1bee7",
+    hlBg:"linear-gradient(90deg,#fce4ec,#fdf3f9)", hlBorder:"#f48fb1", hlText:"#880e4f"
+  },
+  {
+    name:"Ocean Teal 🌊",
+    primary:"#004d40", primary2:"#00695c", accent:"#ff6f00",
+    gold:"#ffd600", bg:"#e0f2f1", muted:"#00796b", dot:"#b2dfdb",
+    hlBg:"linear-gradient(90deg,#e0f7fa,#e8f5e9)", hlBorder:"#80cbc4", hlText:"#004d40"
+  },
+  {
+    name:"Crimson Red 🔴",
+    primary:"#b71c1c", primary2:"#c62828", accent:"#ff8f00",
+    gold:"#ffd600", bg:"#fce4ec", muted:"#c62828", dot:"#ffcdd2",
+    hlBg:"linear-gradient(90deg,#fff3e0,#fff8e1)", hlBorder:"#ffcc80", hlText:"#bf360c"
+  },
+  {
+    name:"Midnight Navy 🌙",
+    primary:"#0d1b4e", primary2:"#1a237e", accent:"#00bcd4",
+    gold:"#ffd600", bg:"#e8eaf6", muted:"#3f51b5", dot:"#c5cae9",
+    hlBg:"linear-gradient(90deg,#e3f2fd,#ede7f6)", hlBorder:"#90caf9", hlText:"#1a237e"
+  },
+  {
+    name:"Sunset Orange 🌅",
+    primary:"#bf360c", primary2:"#d84315", accent:"#ffd600",
+    gold:"#fff176", bg:"#fbe9e7", muted:"#e64a19", dot:"#ffccbc",
+    hlBg:"linear-gradient(90deg,#fff8e1,#fff3e0)", hlBorder:"#ffcc02", hlText:"#bf360c"
+  },
+  {
+    name:"Slate Gray 🩶",
+    primary:"#263238", primary2:"#37474f", accent:"#00acc1",
+    gold:"#ffd600", bg:"#eceff1", muted:"#546e7a", dot:"#b0bec5",
+    hlBg:"linear-gradient(90deg,#e3f2fd,#eff3f5)", hlBorder:"#90caf9", hlText:"#263238"
+  },
+];
+
+// Page load-এ random থিম বেছে নেওয়া
+const THEME = THEMES[Math.floor(Math.random() * THEMES.length)];
+let currentHlBg = THEME.hlBg, currentHlBorder = THEME.hlBorder, currentHlText = THEME.hlText;
+
+function applyTheme(t){
+  const r = document.documentElement.style;
+  r.setProperty('--primary', t.primary);
+  r.setProperty('--primary2', t.primary2);
+  r.setProperty('--accent', t.accent);
+  r.setProperty('--gold', t.gold);
+  r.setProperty('--bg', t.bg);
+  r.setProperty('--muted', t.muted);
+  r.setProperty('--dot-inactive', t.dot);
+  document.getElementById('theme-label').textContent = `✦ D1 STUDY REVIEWS ✦`; // theme color name hidden
+  currentHlBg = t.hlBg; currentHlBorder = t.hlBorder; currentHlText = t.hlText;
+}
+applyTheme(THEME);
+
+/* ═══════════════════════════════════════════════════
+   REVIEW DATA
+   
+   priority: "top" = প্রথমে দেখাবে (সবচেয়ে ভালো রিভিউ)
+   exam: "WBCS" | "Miscellaneous" | "Clerkship"
+   year: "2024" | "2024" ইত্যাদি
+═══════════════════════════════════════════════════ */
+const officersData = [
+  {name:"Souvik", exam:"Officers", year:"2024", score:"Rank 1", priority:"officer", highlight:"Securing 1st rank in the WBCS Examination! Part of Test Series since 2021.", imgKey:"off_01"},
+  {name:"Souvik", exam:"Officers", year:"2024", score:"Revenue Service (Rank 1)", priority:"officer", highlight:"Selected in WBCS Revenue Service (Rank 1).", imgKey:"off_02"},
+  {name:"Chandan", exam:"Officers", year:"2024", score:"Revenue Service", priority:"officer", highlight:"Selected for the WBCS Revenue Service! A true reflection of dedication & hard work.", imgKey:"off_03"},
+  {name:"Selected Aspirant", exam:"Officers", year:"2024", score:"Rank 2 (Executive)", priority:"officer", highlight:"Secured Rank 2 (Executive) in WBCS.", imgKey:"off_04"},
+  {name:"Dinabandhu Roy", exam:"Officers", year:"2024", score:"ACTO Selected", priority:"officer", highlight:"Selected as Assistant Commercial Tax Officer (ACTO).", imgKey:"off_05"},
+  {name:"Dinabandhu Roy", exam:"Officers", year:"2024", score:"Inspector Selected", priority:"officer", highlight:"Selected as Inspector of Co-operative Societies.", imgKey:"off_06"},
+  {name:"Dinabandhu Roy", exam:"Officers", year:"2024", score:"Executive Cut-off", priority:"officer", highlight:"Cleared WBCS Main Examination 2023 Group-A Cut-off.", imgKey:"off_07"},
+  {name:"Priya Mandal", exam:"Officers", year:"2024", score:"Inspector Selected", priority:"officer", highlight:"Selected as WBCS Inspector of Co-operative Service!", imgKey:"off_08"},
+  {name:"WBCS Aspirant - 1", exam:"Officers", year:"2024", score:"Shortlisted for Interview", priority:"officer", highlight:"Shortlisted for WBCS Main Group-C Interview.", imgKey:"off_09"},
+  {name:"WBCS Aspirant", exam:"Officers", year:"2024", score:"Group A Cleared", priority:"officer", highlight:"Cleared WBCS Mains 2023 Group A.", imgKey:"off_10"},
+];
+
+const reviews = [
+
+    // >>> WBCS 2022 SELECTED REVIEWS DATA BLOCK
+  {name:"Sumanta Mukherjee",exam:"WBCS",year:"2022",
+   score:"Selected",priority:"selected",
+   highlight:"170+ attempt; mock set contained the maximum questions; many common found.",
+   imgKey:"wbcs22_selected_01",stars:5,sourceFile:"IMG_20260618_075327_605.jpg"},
+  {name:"Dasanudas",exam:"WBCS",year:"2022",
+   score:"Selected",priority:"selected",
+   highlight:"150+ attempt; scored 138 by answer key; found the set very helpful.",
+   imgKey:"wbcs22_selected_02",stars:5,sourceFile:"IMG_20260618_075327_235.jpg"},
+  {name:"Student (GS 550/800)",exam:"WBCS",year:"2022",
+   score:"Selected",priority:"selected",
+   highlight:"GS score 550/800; final score 132; excellent feedback for the set.",
+   imgKey:"wbcs22_selected_03",stars:5,sourceFile:"IMG_20260618_075328_397.jpg"},
+  {name:"DJ",exam:"WBCS",year:"2022",
+   score:"Selected",priority:"selected",
+   highlight:"150+ common from the mock set; score around 160; appreciated the guidance.",
+   imgKey:"wbcs22_selected_04",stars:5,sourceFile:"IMG_20260618_075328_141.jpg"},
+  {name:"Student (Confidence)",exam:"WBCS",year:"2022",
+   score:"Selected",priority:"selected",
+   highlight:"Mock series built confidence and matched the exam standard; highly thankful.",
+   imgKey:"wbcs22_selected_05",stars:5,sourceFile:"IMG_20260618_075328_161.jpg"},
+  {name:"Student (Common Prelims)",exam:"WBCS",year:"2022",
+   score:"Selected",priority:"selected",
+   highlight:"Many common questions from the set; hopeful about clearing prelims; asked for guidance.",
+   imgKey:"wbcs22_selected_06",stars:5,sourceFile:"IMG_20260618_075327_677.jpg"},
+  {name:"Student (Anek Common)",exam:"WBCS",year:"2022",
+   score:"Selected",priority:"selected",
+   highlight:"Many common from the set; exam went well; thanks for the kind help.",
+   imgKey:"wbcs22_selected_07",stars:5,sourceFile:"IMG_20260618_075328_775.jpg"},
+  {name:"Student (Ashirbad)",exam:"WBCS",year:"2022",
+   score:"Selected",priority:"selected",
+   highlight:"Believes prelims will clear by his blessings; the set made all questions feel common.",
+   imgKey:"wbcs22_selected_08",stars:5,sourceFile:"IMG_20260618_075328_763.jpg"},
+  {name:"Student (117)",exam:"WBCS",year:"2022",
+   score:"Selected",priority:"selected",
+   highlight:"Score around 117; motivated to try the best next year with the guidance.",
+   imgKey:"wbcs22_selected_09",stars:5,sourceFile:"IMG_20260618_075328_641.jpg"},
+  {name:"Student (Highlighted Common)",exam:"WBCS",year:"2022",
+   score:"Selected",priority:"selected",
+   highlight:"Highlighted review: many common from the set, confident about prelims clearance.",
+   imgKey:"wbcs22_selected_10",stars:5,sourceFile:"IMG_20260618_075329_085.jpg"},
+  // <<< END WBCS 2022 SELECTED REVIEWS DATA BLOCK
+// >>> WBCS 2023 SELECTED REVIEWS DATA BLOCK
+  {name:"WBCS 2023 Selected Review 01",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Strong thank-you review: qualified and appreciated the support.",
+   imgKey:"wbcs23_selected_01",stars:5,sourceFile:"IMG_20260618_072156_724.jpg"},
+
+  {name:"WBCS 2023 Selected Review 02",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Very positive support/help review, including another prelims qualification mention.",
+   imgKey:"wbcs23_selected_02",stars:5,sourceFile:"IMG_20260618_072154_166.jpg"},
+
+  {name:"WBCS 2023 Selected Review 03",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Regular follower review: grateful to the community and cleared WBCS 2023 prelims.",
+   imgKey:"wbcs23_selected_03",stars:5,sourceFile:"IMG_20260618_072154_996.jpg"},
+
+  {name:"WBCS 2023 Selected Review 04",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Mock test helped the student qualify WBCS 2023 prelims.",
+   imgKey:"wbcs23_selected_04",stars:5,sourceFile:"IMG_20260618_072156_964.jpg"},
+
+  {name:"WBCS 2023 Selected Review 05",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Telegram/channel help review: student cleared WBCS prelims.",
+   imgKey:"wbcs23_selected_05",stars:5,sourceFile:"IMG_20260618_072156_348.jpg"},
+
+  {name:"WBCS 2023 Selected Review 06",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Positive feedback about mock tests and guidance before qualifying prelims.",
+   imgKey:"wbcs23_selected_06",stars:5,sourceFile:"IMG_20260618_072156_369.jpg"},
+
+  {name:"WBCS 2023 Selected Review 07",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Student thanks the team after passing WBCS prelims.",
+   imgKey:"wbcs23_selected_07",stars:5,sourceFile:"IMG_20260618_072155_983.jpg"},
+
+  {name:"WBCS 2023 Selected Review 08",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Positive review about mock tests and WBCS prelims completion.",
+   imgKey:"wbcs23_selected_08",stars:5,sourceFile:"IMG_20260618_072153_455.jpg"},
+
+  {name:"WBCS 2023 Selected Review 09",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Qualified for mains review.",
+   imgKey:"wbcs23_selected_09",stars:5,sourceFile:"IMG_20260618_072154_355.jpg"},
+
+  {name:"WBCS 2023 Selected Review 10",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"WBCS prelims clear with new enrollment query.",
+   imgKey:"wbcs23_selected_10",stars:5,sourceFile:"IMG_20260618_072153_604.jpg"},
+
+  {name:"WBCS 2023 Selected Review 11",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Cleared review in WBCS 2023 batch.",
+   imgKey:"wbcs23_selected_11",stars:5,sourceFile:"IMG_20260618_072154_181.jpg"},
+
+  {name:"WBCS 2023 Selected Review 12",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"WBCS pre clear review with thank-you response.",
+   imgKey:"wbcs23_selected_12",stars:5,sourceFile:"IMG_20260618_072154_113.jpg"},
+
+  {name:"WBCS 2023 Selected Review 13",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"WBCS mains test series query after prelims clear.",
+   imgKey:"wbcs23_selected_13",stars:5,sourceFile:"IMG_20260618_072155_290.jpg"},
+
+  {name:"WBCS 2023 Selected Review 14",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Prelims clear and mains mock query.",
+   imgKey:"wbcs23_selected_14",stars:5,sourceFile:"IMG_20260618_072154_800.jpg"},
+
+  {name:"WBCS 2023 Selected Review 15",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Thanks-to-you review after prelims clear.",
+   imgKey:"wbcs23_selected_15",stars:5,sourceFile:"IMG_20260618_072154_342.jpg"},
+
+  {name:"WBCS 2023 Selected Review 16",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Selected/qualified review with positive response.",
+   imgKey:"wbcs23_selected_16",stars:5,sourceFile:"IMG_20260618_072156_183.jpg"},
+
+  {name:"WBCS 2023 Selected Review 17",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Preliminary cleared review with mains suggestion request.",
+   imgKey:"wbcs23_selected_17",stars:5,sourceFile:"IMG_20260618_072157_357.jpg"},
+
+  {name:"WBCS 2023 Selected Review 18",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Cleared prelims and requested mains advice.",
+   imgKey:"wbcs23_selected_18",stars:5,sourceFile:"IMG_20260618_072157_576.jpg"},
+
+  {name:"WBCS 2023 Selected Review 19",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Prelims clear and WBCS 2023 mains set query.",
+   imgKey:"wbcs23_selected_19",stars:5,sourceFile:"IMG_20260618_072156_532.jpg"},
+
+  {name:"WBCS 2023 Selected Review 20",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Student confirms WBCS prelims done/cleared and says thank you.",
+   imgKey:"wbcs23_selected_20",stars:5,sourceFile:"IMG_20260618_072157_645.jpg"},
+
+  {name:"WBCS 2023 Selected Review 21",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Preliminary clear review with thanks.",
+   imgKey:"wbcs23_selected_21",stars:5,sourceFile:"IMG_20260618_072155_372.jpg"},
+
+  {name:"WBCS 2023 Selected Review 22",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Preliminary clear and thank-you review.",
+   imgKey:"wbcs23_selected_22",stars:5,sourceFile:"IMG_20260618_072156_218.jpg"},
+
+  {name:"WBCS 2023 Selected Review 23",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Prelims clear review with mains help query.",
+   imgKey:"wbcs23_selected_23",stars:5,sourceFile:"IMG_20260618_072155_597.jpg"},
+
+  {name:"WBCS 2023 Selected Review 24",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Clear sir / qualified review.",
+   imgKey:"wbcs23_selected_24",stars:5,sourceFile:"IMG_20260618_072155_927.jpg"},
+
+  {name:"WBCS 2023 Selected Review 25",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Pass review with later guidance request.",
+   imgKey:"wbcs23_selected_25",stars:5,sourceFile:"IMG_20260618_072154_163.jpg"},
+
+  {name:"WBCS 2023 Selected Review 26",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"WBPSC/WBCS pass confirmation review.",
+   imgKey:"wbcs23_selected_26",stars:5,sourceFile:"IMG_20260618_072154_620.jpg"},
+
+  {name:"WBCS 2023 Selected Review 27",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"WBCS prelims clear review.",
+   imgKey:"wbcs23_selected_27",stars:5,sourceFile:"IMG_20260618_072154_947.jpg"},
+
+  {name:"WBCS 2023 Selected Review 28",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Cleared review from WBCS group/contact.",
+   imgKey:"wbcs23_selected_28",stars:5,sourceFile:"IMG_20260618_072153_784.jpg"},
+
+  {name:"WBCS 2023 Selected Review 29",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"WBCS pre clear review with thank-you response.",
+   imgKey:"wbcs23_selected_29",stars:5,sourceFile:"IMG_20260618_072153_769.jpg"},
+
+  {name:"WBCS 2023 Selected Review 30",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Prelims clear and mains test series query.",
+   imgKey:"wbcs23_selected_30",stars:5,sourceFile:"IMG_20260618_072157_318.jpg"},
+
+  {name:"WBCS 2023 Selected Review 31",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"WBCS pre clear review.",
+   imgKey:"wbcs23_selected_31",stars:5,sourceFile:"IMG_20260618_072156_580.jpg"},
+
+  {name:"WBCS 2023 Selected Review 32",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Prelims qualify review with thanks.",
+   imgKey:"wbcs23_selected_32",stars:5,sourceFile:"IMG_20260618_072157_297.jpg"},
+
+  {name:"WBCS 2023 Selected Review 33",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Prelims clear review from earlier conversation.",
+   imgKey:"wbcs23_selected_33",stars:5,sourceFile:"IMG_20260618_072155_798.jpg"},
+
+  {name:"WBCS 2023 Selected Review 34",exam:"WBCS",year:"2023",
+   score:"Selected",priority:"selected",
+   highlight:"Positive WBCS prelims qualification/support review.",
+   imgKey:"wbcs23_selected_34",stars:5,sourceFile:"IMG_20260618_072152_711.jpg"},
+
+  // <<< END WBCS 2023 SELECTED REVIEWS DATA BLOCK
+
+  {name:"Soumili Ghosh",exam:"WBCS",year:"2024",
+   score:"114-115",priority:"normal",
+   highlight:"Thank you sir er apnader set thake khub help hoyeche",
+   imgKey:"r_wbcs_01",stars:5},
+
+  {name:"Bidisha M",exam:"WBCS",year:"2024",
+   score:"121",priority:"normal",
+   highlight:"Sir ami apnar channel er mock test niyechilam ...khub e valo question gulo...apnader ans key wise 121 asche...",
+   imgKey:"r_wbcs_02",stars:5},
+
+  {name:"Student (EWS)",exam:"WBCS",year:"2024",
+   score:"97",priority:"normal",
+   highlight:"Amar ans miliye negetive dhore kete kute 97 hochye",
+   imgKey:"r_wbcs_06",stars:5},
+
+  {name:"Sumit Ghosh",exam:"WBCS",year:"2024",
+   score:"165.71",priority:"top",
+   highlight:"Ei first eto score peliam may be ....3 rd mock e",
+   imgKey:"r_wbcs_07",stars:5},
+
+  {name:"Sah...",exam:"WBCS",year:"2024",
+   score:"126.25",priority:"normal",
+   highlight:"Dada cutoff kirom jete pare? Amar 126.25 hocche",
+   imgKey:"r_wbcs_08",stars:5},
+
+  {name:"Mrina...",exam:"WBCS",year:"2024",
+   score:"144",priority:"normal",
+   highlight:"144 asche,,,",
+   imgKey:"r_wbcs_10",stars:5},
+
+  {name:"Student (SC)",exam:"WBCS",year:"2024",
+   score:"115/117",priority:"normal",
+   highlight:"Sir 115/117 moto hocche marks Sir sc cast",
+   imgKey:"r_wbcs_11",stars:5},
+
+  {name:"Krisanu Mondal",exam:"WBCS",year:"2024",
+   score:"130 Common",priority:"top",
+   highlight:"Xm valo hyace sir 130 ta common apnar set thke",
+   imgKey:"r_wbcs_12",stars:5},
+
+  {name:"Amrita",exam:"WBCS",year:"2024",
+   score:"115 (SC)",priority:"normal",
+   highlight:"115 hocche sir sc category. First time prelims dicchi.",
+   imgKey:"r_wbcs_13",stars:5},
+
+  {name:"MD Asif",exam:"WBCS",year:"2024",
+   score:"124.25",priority:"normal",
+   highlight:"Thanks sir your mock tests were so helpful for prelims I scored 124.25",
+   imgKey:"r_wbcs_14",stars:5},
+
+  {name:"Palo",exam:"WBCS",year:"2024",
+   score:"140",priority:"top",
+   highlight:"Exam Valo hoeache sir 140 er moto kore esechi",
+   imgKey:"r_wbcs_15",stars:5},
+
+  {name:"Sujoy Debnath",exam:"WBCS",year:"2024",
+   score:"128",priority:"top",
+   highlight:"Exam valo hoyecha asa kori hoye jabe 128 hccha",
+   imgKey:"r_wbcs_16",stars:5},
+
+  {name:"Mampi",exam:"WBCS",year:"2024",
+   score:"91 (SC)",priority:"normal",
+   highlight:"Sir Bolchilm sc te 91 hochhe,,Main ki pora jete pare?",
+   imgKey:"r_wbcs_17",stars:5},
+
+  {name:"S.K M",exam:"WBCS",year:"2024",
+   score:"107.75",priority:"normal",
+   highlight:"107.75 hochhe Anek silly mistake korechhi",
+   imgKey:"r_wbcs_20",stars:5},
+
+  {name:"Ananya Hazra",exam:"WBCS",year:"2024",
+   score:"148.79",priority:"normal",
+   highlight:"Apnader mock ye thke onk help hyeche",
+   imgKey:"r_wbcs_21",stars:5},
+
+  {name:"Indra Narayan Raha",exam:"WBCS",year:"2024",
+   score:"132",priority:"normal",
+   highlight:"132 moton hochhe sir",
+   imgKey:"r_wbcs_22",stars:5},
+
+  {name:"Subha 23/24",exam:"WBCS",year:"2024",
+   score:"110+",priority:"normal",
+   highlight:"Sir amar apnar answer key miliye dekhlam 110ar upore thakbe",
+   imgKey:"r_wbcs_23",stars:5},
+
+  {name:"Student (120+)",exam:"WBCS",year:"2024",
+   score:"120+",priority:"normal",
+   highlight:"Overall 120+ korechi... Apnader mains er kono kichu achhe?",
+   imgKey:"r_wbcs_24",stars:5},
+
+  {name:"Moumita Bhattach...",exam:"WBCS",year:"2024",
+   score:"122",priority:"normal",
+   highlight:"Sir, apnader mock gulo khub i kaje diyechhe... 122 gen...",
+   imgKey:"r_wbcs_25",stars:5},
+
+  {name:"UJJAL KR",exam:"WBCS",year:"2024",
+   score:"120",priority:"normal",
+   highlight:"Valo hoyechy 120 aschey .",
+   imgKey:"r_wbcs_26",stars:5},
+
+  {name:"Debapriyo Misra",exam:"WBCS",year:"2024",
+   score:"146.5",priority:"normal",
+   highlight:"Sir 146.5 moto hocche onek gulo answer key miliye.",
+   imgKey:"r_wbcs_28",stars:5},
+
+  {name:"Mantu Ghosh",exam:"WBCS",year:"2024",
+   score:"110",priority:"normal",
+   highlight:"Motamuti 110 hobe hoy toh",
+   imgKey:"r_wbcs_29",stars:5},
+
+  {name:"Student (UR)",exam:"WBCS",year:"2024",
+   score:"125+",priority:"normal",
+   highlight:"125+ in UR category",
+   imgKey:"r_wbcs_30",stars:5},
+
+  ,
+
+  {name:"Student",exam:"WBCS",year:"2024",
+   score:"125.5",priority:"normal",
+   highlight:"apnader ans miliea dekhlam 125.5 asche",
+   imgKey:"r_wbcs_34",stars:5},
+
+  {name:"Souvik I",exam:"WBCS",year:"2024",
+   score:"115",priority:"normal",
+   highlight:"আপনার আশীর্বাদে 115 মার্কস হচ্ছে",
+   imgKey:"r_wbcs_35",stars:5},
+
+
+
+  // ══════════════ NEW 19 UPLOADED WBCS REVIEWS ══════════════
+
+  {name:"Student (151+ Answered)",exam:"WBCS",year:"2024",
+   score:"151+ Answered",priority:"top",
+   highlight:"স্যার আপনাদের আশীর্বাদে আমার এক্সাম খুবই ভালো হয়েছে। আমি আপনাদের সেট থেকে আজকে 151+ করেছি যেগুলি আমি প্র্যাকটিস করেছিলাম আপনাদের সেট থেকে অসংখ্য ধন্যবাদ স্যার 🙏",
+   imgKey:"new_wbcs_02",stars:5},
+
+  {name:"Swarnali Ghosh",exam:"WBCS",year:"2024",
+   score:"140 Attempt",priority:"normal",
+   highlight:"Exam valo hoyeche sir. Ami onek common peyechi 45 ta series korechilam practice total. Wild guesses kori ni besi 140 moton attempt korechi ❤️",
+   imgKey:"new_wbcs_03",stars:5},
+
+  {name:"Subh M",exam:"WBCS",year:"2024",
+   score:"150+ Attempt",priority:"top",
+   highlight:"আমার ১৫০+ attempt হয়েছে, প্রশ্ন কমন পেয়েছি, ধন্যবাদ স্যার এমন সুবিধা দেওয়ার জন্য 😄❤️",
+   imgKey:"new_wbcs_04",stars:5},
+
+  {name:"Student (IAS level Paper)",exam:"WBCS",year:"2024",
+   score:"Exam Valo Hoyeche",priority:"normal",
+   highlight:"exam valo hoyechhe sir.....but question chhilo IAS level er. Sir next year batch kobe theke chalu korben 🔥",
+   imgKey:"new_wbcs_05",stars:5},
+
+  {name:"Rima Chakraborty",exam:"WBCS",year:"2024",
+   score:"Qualify Kore Jabo",priority:"normal",
+   highlight:"Sir ,bhaloi holo Thakurer doay qualify kore jabo sir ,common chilo sir 🙏 ❤️",
+   imgKey:"new_wbcs_07",stars:5},
+
+  {name:"Shramana Banerjee (#2)",exam:"WBCS",year:"2024",
+   score:"120–125",priority:"normal",
+   highlight:"Wbcs er moto question. High cut off trend jbe ebar. Thnq fr the intense mocks ❤️ Tobe apnr set gulor tulona hyna — Hall e giye hat pa chere dito noile 😄",
+   imgKey:"new_wbcs_08",stars:5},
+
+  {name:"Anonymous (35B Batch)",exam:"WBCS",year:"2024",
+   score:"130+ / 120+",priority:"normal",
+   highlight:"স্যার 130+ attempt করেছি। কিছু কাটাকুটি করে আশা করি 120+ নাম্বার উঠবে। সেট গুলো কয়েকটাই প্র্যাক্টিস করেছিলাম। অনেকগুলোই কমন পেলাম ❤️",
+   imgKey:"new_wbcs_09",stars:5},
+
+  {name:"Polka Dot",exam:"WBCS",year:"2024",
+   score:"Prochur Common",priority:"normal",
+   highlight:"Sir, exam e questions dekhe khoob khushi hoyegechilam. Prochur common peyechi apnar set theke. Wbcs miscellaneous er jonne o enrol korte chai sir 🔥",
+   imgKey:"new_wbcs_10",stars:5},
+
+  {name:"Sourav Mk 22",exam:"WBCS",year:"2024",
+   score:"Common পেয়েছি",priority:"normal",
+   highlight:"Exam diye rastai a6i. Apnar mock theke common peyechi. abar clear hoye jabe ❤️",
+   imgKey:"new_wbcs_11",stars:5},
+
+  {name:"Bidyat",exam:"WBCS",year:"2024",
+   score:"130 Common",priority:"normal",
+   highlight:"130 ta common. Kintu prochur silly mistake. Answer Ready Share korchi Dear 🥰",
+   imgKey:"new_wbcs_12",stars:5},
+
+  {name:"Anonymous (35B #2)",exam:"WBCS",year:"2024",
+   score:"130+ Attempt",priority:"normal",
+   highlight:"স্যার 130+ attempt করেছি। কিছু কাটাকুটি করে আশা করি 120+ নাম্বার উঠবে। সেট গুলো কয়েকটাই প্র্যাক্টিস করেছিলাম। অনেকগুলোই কমন পেলাম ❤️",
+   imgKey:"new_wbcs_13",stars:5},
+
+  {name:"Soumili Ghosh",exam:"WBCS",year:"2024",
+   score:"114–115 Score",priority:"normal",
+   highlight:"Sir 114-115 moto asche negative bad diye to mains Jhonnyo ki pora start kora uchit ???? Thank you sir er apnader set thake khub help hoyeche 🎯",
+   imgKey:"new_wbcs_14",stars:5},
+
+  {name:"Student (170+ Attempt #2)",exam:"WBCS",year:"2024",
+   score:"170+ Attempt",priority:"top",
+   highlight:"Sir, onek common peyechi apnader mock test theke 50 ta mock test ami diyechilam + PYQ. Around 170+ attempt korechi 🔥",
+   imgKey:"new_wbcs_19",stars:5},
+
+
+
+  // ══════════════ WBCS 2024 ══════════════
+  // --- TOP PRIORITY (সবচেয়ে ভালো রিভিউ) ---
+  {name:"Debapriyo Misra",exam:"WBCS",year:"2024",
+   score:"146.5",priority:"top",
+   highlight:"Sir 146.5 moto hochhe, onek gulo answer key miliye. Prelims-er set gulo khub helpful hoyache sir. Mains-er set suru hole nite chai prothom theke. 🎯",
+   imgKey:"n11",stars:5},
+
+  {name:"Ananya Hazra",exam:"WBCS",year:"2024",
+   score:"148.79 (Mock Rank #10)",priority:"top",
+   highlight:"Mock-এ Grade A, Rank #10 — 161 সঠিক উত্তর! Apnader mock ye thke onk help hyeche. Mains ta jodi help hoto khubbb bhalo hoto sir 🙏",
+   imgKey:"n09",stars:5},
+
+  {name:"Sumit Ghosh",exam:"WBCS",year:"2024",
+   score:"165.71 (Mock 82.9%)",priority:"top",
+   highlight:"Ei first eto score peliam may be... 3rd mock e 165.71! Exam valo hoieche sir — question hard chilo ektu, but mock deye anek ta help hoieche. 🏆",
+   imgKey:"n01",stars:5},
+
+  {name:"Sneha",exam:"WBCS",year:"2024",
+   score:"127.75",priority:"top",
+   highlight:"Ans key miliye dekhlam — 127.75 asche! 144ta attempt korechilam. খুব ভালো রিভিউ sir-এর set-এর। Mains-এর কোর্স থাকলে জানাবেন। 🌟",
+   imgKey:"n15",stars:5},
+
+  ,
+
+  // --- STANDARD WBCS 2024 ---
+  ,
+
+  {name:"Anonymous (UR)",exam:"WBCS",year:"2024",
+   score:"125+ UR",priority:"normal",
+   highlight:"Nomoskar sir. Ami apnar paid prelims tests niyechilam jaa khubi kaaje aeschhe. 125+ in UR category ❤️ Baki prelims mock tests quality was top notch!",
+   imgKey:"n06",stars:5},
+
+  {name:"Anonymous",exam:"WBCS",year:"2024",
+   score:"120+",priority:"normal",
+   highlight:"Sir, onk jana prosno negetive hbe vebe attempt korlam na. Overall 120+ korechi. Apnader mains er kono kichu achhe? 🙏",
+   imgKey:"n07",stars:5},
+
+  ,
+
+  {name:"Anonymous (SC)",exam:"WBCS",year:"2024",
+   score:"116 (SC)",priority:"normal",
+   highlight:"Sir sc category 116 moto hocche ❤️ খুবই ভালো — মেনস-এর প্রিপারেশন আজ থেকে শুরু করুন। অনেক অনেক ধন্যবাদ sir 🙏",
+   imgKey:"n17",stars:5},
+
+  ,
+
+  ,
+
+  {name:"Mampi",exam:"WBCS",year:"2024",
+   score:"91 (SC)",priority:"normal",
+   highlight:"Sir Bolchilm sc te 91 hochhe. Main ki pora jete pare? — Mains preparation সাথে Miscellaneous প্রিপারেশন শুরু করুন। 😊",
+   imgKey:"n08",stars:5},
+
+  {name:"debajyotisengupta",exam:"WBCS",year:"2024",
+   score:"101.75",priority:"normal",
+   highlight:"Sir 101.75 asche. Mains start korbo? Kindly ektu guide korun ❤️ — মেনস এর সাথে সাথে Miscellaneous-এর ও প্রিপারেশন শুরু করুন। Thank you! 🥰",
+   imgKey:"n16",stars:5},
+
+  // --- WBCS 2024 (পুরনো batch থেকে) ---
+  {name:"Suchetana Chatterjee",exam:"WBCS",year:"2024",
+   score:"130+ Attempt",priority:"normal",
+   highlight:"130+ attempt — Ank common peyechi! স্যার আপনার Set-গুলো করেছিলাম, অনেকগুলোই Common পেলাম। Standar sir valoi laglo jerom apnar set korechilm. 💯",
+   imgKey:"img01",stars:5},
+
+  ,
+
+  {name:"Anonymous (IAS level)",exam:"WBCS",year:"2024",
+   score:"Valo Hoyeche",priority:"normal",
+   highlight:"Exam valo hoyechhe sir — khub tough chhilo paper. Question chhilo IAS level er! Sir next year batch kobe theke chalu korben?",
+   imgKey:"img03",stars:5},
+
+  {name:"Anonymous (S)",exam:"WBCS",year:"2024",
+   score:"130",priority:"normal",
+   highlight:"130 mto korechi. But hbe naki jni na. Dekha jak ki hoi — নিশ্চিন্তে থাকুন 😊",
+   imgKey:"img04",stars:5},
+
+  ,
+
+  {name:"Shramana Banerjee",exam:"WBCS",year:"2024",
+   score:"120–125",priority:"normal",
+   highlight:"WBCS-এর মতো প্রশ্ন! High cut off trend jbe ebar. Thnq fr the intense mocks ❤️ Tobe apnr set gulor tulona hyna — Hall e giye hat pa chere dito noile 😄",
+   imgKey:"img06",stars:5},
+
+  {name:"Anonymous (35B WBCS)",exam:"WBCS",year:"2024",
+   score:"130+ / 120+",priority:"normal",
+   highlight:"স্যার ১৩০+ attempt করেছি। কিছু কাটাকুটি করে আশা করি ১২০+ নাম্বার উঠবে। সেট গুলো প্র্যাক্টিস করেছিলাম, অনেকগুলোই কমন পেলাম। ❤️",
+   imgKey:"img07",stars:5},
+
+  {name:"Bidyat",exam:"WBCS",year:"2024",
+   score:"130 Common",priority:"normal",
+   highlight:"130 ta common! কিন্তু প্রচুর silly mistake হয়েছে। Khub e valo Dear 🥰 — Answer Ready Share korchi Dear!",
+   imgKey:"img08",stars:5},
+
+  {name:"Amrita (SC Category)",exam:"WBCS",year:"2024",
+   score:"115 (SC)",priority:"normal",
+   highlight:"115 hocche sir sc category. First time prelims dicchi! Mains er jonno ki prepare kora uchit? Guide kore dile valo hoto.",
+   imgKey:"img10",stars:5},
+
+  {name:"Anujit Mukherjee (UR)",exam:"WBCS",year:"2024",
+   score:"110 (UR)",priority:"normal",
+   highlight:"Sir Prelims e 110 moto hochhe (UR). Chance ache? — Khub e valo Dear 🥰 Mains সাথে সাথে Miscellaneous পিপারেশন শুরু করুন আজ থেকে।",
+   imgKey:"img11",stars:5},
+
+  {name:"Moumita Bhattacharya",exam:"WBCS",year:"2024",
+   score:"122+",priority:"normal",
+   highlight:"Sir, apnader mock gulo khub i kaje diyechhe... 122 gen... Sob baad diye 🙏 Mains-এর জন্য প্রস্তুতি নিতে চাই। 20 mains set asbe Dear!",
+   imgKey:"img13",stars:5},
+
+  // ══════════════ MISCELLANEOUS 2024 ══════════════
+  {name:"Sujoy Debnath",exam:"WBCS",year:"2024",
+   score:"128",priority:"top",
+   highlight:"Exam valo hoyecha asa kori hoye jabe 128 hccha ❤️ Sir miscellaneous set ki start hoyecha? Khub e Valo Dear 🥰 — Mis jonne abhi ke sms korun!",
+   imgKey:"n14",stars:5},
+
+  {name:"Sneha (Misc 2024)",exam:"WBCS",year:"2024",
+   score:"127.75",priority:"top",
+   highlight:"Ans key miliye dekhlam 127.75 asche, 144ta attempt korechilam! MISCELLANEOUS 2024-এর Roll Number confirm. মেনস-এর প্রিপারেশন খুব ভালো করে শুরু করুন যত তাড়াতাড়ি সম্ভব। 🎯",
+   imgKey:"n15",stars:5},
+
+  {name:"Amit মল্লিক",exam:"WBCS",year:"2024",
+   score:"126–130",priority:"top",
+   highlight:"আলিপুরদুয়ার থেকে বলছি। আপনাদের নোট ও মক টেস্ট অনুসরণ করে প্রস্তুতি নেওয়ার ফলে আমার নম্বর প্রায় ১২৬-১৩০-এর মধ্যে হয়েছে। অনেক উৎসাহিত। ধন্যবাদান্তে 🙏",
+   imgKey:"img09",stars:5},
+
+  {name:"UJJAL KR (@WB EXCISE)",exam:"WBCS",year:"2024",
+   score:"120",priority:"normal",
+   highlight:"Valo hoyechy. 120 aschey. Asakori mains e allow hobo 🤞 মেনস-এর প্রিপারেশন শুরু করুন যত তাড়াতাড়ি সম্ভব।",
+   imgKey:"img12",stars:5},
+
+
+
+  // ══════════════ NEW MISCELLANEOUS 2024 REVIEWS (63 images) ══════════════
+
+  {name:"Miscellaneous Review #1",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_01",stars:5},
+
+  {name:"Miscellaneous Review #2",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_02",stars:5},
+
+  {name:"Miscellaneous Review #3",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_03",stars:5},
+
+  {name:"Miscellaneous Review #4",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_04",stars:5},
+
+  {name:"Miscellaneous Review #5",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_05",stars:5},
+
+  {name:"Miscellaneous Review #6",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_06",stars:5},
+
+  {name:"Miscellaneous Review #7",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_07",stars:5},
+
+  {name:"Miscellaneous Review #8",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_08",stars:5},
+
+  {name:"Miscellaneous Review #9",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_09",stars:5},
+
+  {name:"Miscellaneous Review #10",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_10",stars:5},
+
+  {name:"Miscellaneous Review #11",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_11",stars:5},
+
+  {name:"Miscellaneous Review #12",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_12",stars:5},
+
+  {name:"Miscellaneous Review #13",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_13",stars:5},
+
+  {name:"Miscellaneous Review #14",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_14",stars:5},
+
+  {name:"Miscellaneous Review #15",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_15",stars:5},
+
+  {name:"Miscellaneous Review #16",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_16",stars:5},
+
+  {name:"Miscellaneous Review #17",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_17",stars:5},
+
+  {name:"Miscellaneous Review #18",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_18",stars:5},
+
+  {name:"Miscellaneous Review #19",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_19",stars:5},
+
+  {name:"Miscellaneous Review #20",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"top",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_20",stars:5},
+
+  {name:"Miscellaneous Review #21",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_21",stars:5},
+
+  {name:"Miscellaneous Review #22",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_22",stars:5},
+
+  {name:"Miscellaneous Review #23",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_23",stars:5},
+
+  {name:"Miscellaneous Review #24",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_24",stars:5},
+
+  {name:"Miscellaneous Review #25",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_25",stars:5},
+
+  {name:"Miscellaneous Review #26",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_26",stars:5},
+
+  {name:"Miscellaneous Review #27",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_27",stars:5},
+
+  {name:"Miscellaneous Review #28",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_28",stars:5},
+
+  {name:"Miscellaneous Review #29",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_29",stars:5},
+
+  {name:"Miscellaneous Review #30",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_30",stars:5},
+
+  {name:"Miscellaneous Review #31",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_31",stars:5},
+
+  {name:"Miscellaneous Review #32",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_32",stars:5},
+
+  {name:"Miscellaneous Review #33",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_33",stars:5},
+
+  {name:"Miscellaneous Review #34",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_34",stars:5},
+
+  {name:"Miscellaneous Review #35",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_35",stars:5},
+
+  {name:"Miscellaneous Review #36",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_36",stars:5},
+
+  {name:"Miscellaneous Review #37",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_37",stars:5},
+
+  {name:"Miscellaneous Review #38",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_38",stars:5},
+
+  {name:"Miscellaneous Review #39",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_39",stars:5},
+
+  {name:"Miscellaneous Review #40",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_40",stars:5},
+
+  {name:"Miscellaneous Review #41",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_41",stars:5},
+
+  {name:"Miscellaneous Review #42",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_42",stars:5},
+
+  {name:"Miscellaneous Review #43",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_43",stars:5},
+
+  {name:"Miscellaneous Review #44",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_44",stars:5},
+
+  {name:"Miscellaneous Review #45",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_45",stars:5},
+
+  {name:"Miscellaneous Review #46",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_46",stars:5},
+
+  {name:"Miscellaneous Review #47",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_47",stars:5},
+
+  {name:"Miscellaneous Review #48",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_48",stars:5},
+
+  {name:"Miscellaneous Review #49",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_49",stars:5},
+
+  {name:"Miscellaneous Review #50",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_50",stars:5},
+
+  {name:"Miscellaneous Review #51",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_51",stars:5},
+
+  {name:"Miscellaneous Review #52",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_52",stars:5},
+
+  {name:"Miscellaneous Review #53",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_53",stars:5},
+
+  {name:"Miscellaneous Review #54",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_54",stars:5},
+
+  {name:"Miscellaneous Review #55",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_55",stars:5},
+
+  {name:"Miscellaneous Review #56",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_56",stars:5},
+
+  {name:"Miscellaneous Review #57",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_57",stars:5},
+
+  {name:"Miscellaneous Review #58",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_58",stars:5},
+
+  {name:"Miscellaneous Review #59",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_59",stars:5},
+
+  {name:"Miscellaneous Review #60",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_60",stars:5},
+
+  {name:"Miscellaneous Review #61",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_61",stars:5},
+
+  {name:"Miscellaneous Review #62",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_62",stars:5},
+
+  {name:"Miscellaneous Review #63",exam:"Miscellaneous",year:"2024",
+   score:"Review",priority:"normal",
+   highlight:"D1 Study Miscellaneous পরীক্ষার্থীর রিভিউ 🙏",
+   imgKey:"misc_new_63",stars:5},
+
+  // ══════════════ WBCS 2024 ══════════════
+  // (পুরনো batch — নতুন year section)
+  /* ── এখানে 2024 batch-এর রিভিউ add করুন ──
+  {name:"নাম",exam:"WBCS",year:"2024",
+   score:"স্কোর",priority:"top",
+   highlight:"ফিডব্যাক...",
+   imgKey:"",stars:5},
+  */
+
+  
+  // ══════════════ 16 NEW UPLOADED WBCS REVIEWS ══════════════
+
+  {name:"Suchetana Chatterjee",exam:"WBCS",year:"2024",
+   score:"130+ Attempt",priority:"normal",
+   highlight:"130+ attempt — Ank common peyechi! Standar sir valoi laglo jerom apnar set korechilm. 💯",
+   imgKey:"upload_03",stars:5},
+
+  {name:"Krisanu Mondal",exam:"WBCS",year:"2024",
+   score:"130 Common",priority:"top",
+   highlight:"Xm valo hyace sir 130 ta common apnar set thke. Aber kaj korbo Dear 🥰",
+   imgKey:"upload_09",stars:5},
+
+  {name:"Bidyat",exam:"WBCS",year:"2024",
+   score:"130 Common",priority:"normal",
+   highlight:"130 ta common. Kintu prochur silly mistake. Answer Ready Share korchi Dear 🥰",
+   imgKey:"upload_10",stars:5},
+
+  {name:"Palo",exam:"WBCS",year:"2024",
+   score:"140",priority:"top",
+   highlight:"Exam Valo hoeache sir 140 er moto kore esechi. Mains preparation khub e taratari start korben ❤️",
+   imgKey:"upload_12",stars:5},
+
+  {name:"Sudipta",exam:"WBCS",year:"2024",
+   score:"170+ (120+)",priority:"top",
+   highlight:"WBCS mock set theke pray sobi common poreche, 170+ kore esechi, 120 up thakbe 🔥",
+   imgKey:"upload_13",stars:5},
+
+  {name:"P...Mandal",exam:"WBCS",year:"2024",
+   score:"114+",priority:"normal",
+   highlight:"Dada 114+ asche ❤️ Tomar test series gulo khubei helpful!",
+   imgKey:"upload_14",stars:5},
+
+  {name:"Sneha",exam:"WBCS",year:"2024",
+   score:"127.75",priority:"top",
+   highlight:"Ans key miliye dekhlam.....127.75 asche...144 ta attempt korechilam 🎯",
+   imgKey:"upload_15",stars:5},
+
+  {name:"Student (125.5)",exam:"WBCS",year:"2024",
+   score:"125.5",priority:"normal",
+   highlight:"ami apnader wbcs 2024 mock neachilam....178 ta attempt korechi....apnader ans miliea dekhlam 125.5 asche .onekta neg hoye geche....apnader setgulo onek help koreche ❤️",
+   imgKey:"upload_16",stars:5},
+
+  // >>> CLERKSHIP 2024 TOP REVIEW DATA BLOCK
+  {name:"Clerkship 2024 Student — 86+",exam:"Clerkship",year:"2024",
+   score:"86+",priority:"top",
+   highlight:"GK এবং Maths থেকে অনেক common; 86+ score আশা করছে।",
+   imgKey:"clerk24_01",stars:5,sourceFile:"IMG_20260618_082939_858.jpg"},
+
+  {name:"Clerkship 2024 Student — 86 Attempt",exam:"Clerkship",year:"2024",
+   score:"86",priority:"top",
+   highlight:"86 attempt; GK-তে 7/8 ভুল হতে পারে, English/Math ঠিকঠাক; next WBCS preparation feedback.",
+   imgKey:"clerk24_02",stars:5,sourceFile:"IMG_20260618_082941_886.jpg"},
+
+  {name:"Clerkship 2024 Student — 86 Attempt",exam:"Clerkship",year:"2024",
+   score:"86",priority:"top",
+   highlight:"86 attempt; GK-তে 7/8 ভুল হতে পারে, English/Math ঠিকঠাক; next WBCS preparation feedback.",
+   imgKey:"clerk24_03",stars:5,sourceFile:"IMG_20260618_082944_269.jpg"},
+
+  {name:"Clerkship 2024 Student — 85 Total",exam:"Clerkship",year:"2024",
+   score:"85",priority:"top",
+   highlight:"4th shift; GK moderate, Math calculative, English easy to moderate; Math all correct, total 85.",
+   imgKey:"clerk24_04",stars:5,sourceFile:"IMG_20260618_082943_830.jpg"},
+
+  {name:"Clerkship 2024 Student — 85 Total",exam:"Clerkship",year:"2024",
+   score:"85",priority:"top",
+   highlight:"4th shift; GK moderate, Math calculative, English easy to moderate; Math all correct, total 85.",
+   imgKey:"clerk24_05",stars:5,sourceFile:"IMG_20260618_082943_990.jpg"},
+
+  {name:"Clerkship 2024 Student — 85 Correct",exam:"Clerkship",year:"2024",
+   score:"85",priority:"top",
+   highlight:"2nd shift; 85 correct, 3–4 ভুল হতে পারে।",
+   imgKey:"clerk24_06",stars:5,sourceFile:"IMG_20260618_082941_279.jpg"},
+
+  {name:"Clerkship 2024 Student — 85 Correct",exam:"Clerkship",year:"2024",
+   score:"85",priority:"top",
+   highlight:"2nd shift; 85 correct, 3–4 ভুল হতে পারে।",
+   imgKey:"clerk24_07",stars:5,sourceFile:"IMG_20260618_082942_552.jpg"},
+
+  {name:"Clerkship 2024 Student — 83 Attempt",exam:"Clerkship",year:"2024",
+   score:"83",priority:"top",
+   highlight:"2nd shift; question moderate to hard; 83 attempt, Math 29 correct.",
+   imgKey:"clerk24_08",stars:5,sourceFile:"IMG_20260618_082940_816.jpg"},
+
+  {name:"Clerkship 2024 Student — 83 Attempt",exam:"Clerkship",year:"2024",
+   score:"83",priority:"top",
+   highlight:"Sir, very good; 83 attempt, 3–4 mistake হতে পারে।",
+   imgKey:"clerk24_09",stars:5,sourceFile:"IMG_20260618_082941_325.jpg"},
+
+  {name:"Clerkship 2024 Student — 83 Attempt",exam:"Clerkship",year:"2024",
+   score:"83",priority:"top",
+   highlight:"Sir, very good; 83 attempt, 3–4 mistake হতে পারে।",
+   imgKey:"clerk24_10",stars:5,sourceFile:"IMG_20260618_082944_609.jpg"},
+
+  {name:"Clerkship 2024 Student — 81 Attempt",exam:"Clerkship",year:"2024",
+   score:"81",priority:"top",
+   highlight:"81 attempt; 2–3 ভুল হতে পারে; exam ভালো হয়েছে।",
+   imgKey:"clerk24_11",stars:5,sourceFile:"IMG_20260618_082940_957.jpg"},
+
+  {name:"Clerkship 2024 Student — 80 Attempt",exam:"Clerkship",year:"2024",
+   score:"80",priority:"top",
+   highlight:"2nd shift; 80 attempt; mains guidance requested after exam.",
+   imgKey:"clerk24_12",stars:5,sourceFile:"IMG_20260618_082940_274.jpg"},
+
+  {name:"Clerkship 2024 Student — 80 Attempt",exam:"Clerkship",year:"2024",
+   score:"80",priority:"top",
+   highlight:"2nd shift; 80 attempt; mains guidance requested after exam.",
+   imgKey:"clerk24_13",stars:5,sourceFile:"IMG_20260618_082942_975.jpg"},
+
+  {name:"Clerkship 2024 Student — 79",exam:"Clerkship",year:"2024",
+   score:"79",priority:"top",
+   highlight:"2nd shift; overall moderate; 79 মতো করেছে, কিছু negative হতে পারে।",
+   imgKey:"clerk24_14",stars:5,sourceFile:"IMG_20260618_082941_132.jpg"},
+
+  {name:"Clerkship 2024 Student — 79",exam:"Clerkship",year:"2024",
+   score:"79",priority:"top",
+   highlight:"2nd shift; overall moderate; 79 মতো করেছে, কিছু negative হতে পারে।",
+   imgKey:"clerk24_15",stars:5,sourceFile:"IMG_20260618_082941_914.jpg"},
+
+  {name:"Clerkship 2024 Student — 77 Attempt",exam:"Clerkship",year:"2024",
+   score:"77",priority:"top",
+   highlight:"Last shift; 77 attempt; বেশিরভাগ common ছিল; WBCS guide requested.",
+   imgKey:"clerk24_16",stars:5,sourceFile:"IMG_20260618_082944_713.jpg"},
+
+  {name:"Clerkship 2024 Student — 75",exam:"Clerkship",year:"2024",
+   score:"75",priority:"top",
+   highlight:"Exam ভালো হয়েছে; around 75 attempt, OBC-A score discussion; exam session notes requested.",
+   imgKey:"clerk24_17",stars:5,sourceFile:"IMG_20260618_082940_132.jpg"},
+
+  {name:"Clerkship 2024 Student — 75",exam:"Clerkship",year:"2024",
+   score:"75",priority:"top",
+   highlight:"75 attempt; third shift; WBCS preparation/news guidance requested.",
+   imgKey:"clerk24_18",stars:5,sourceFile:"IMG_20260618_082941_233.jpg"},
+
+  {name:"Clerkship 2024 Student — 75",exam:"Clerkship",year:"2024",
+   score:"75",priority:"top",
+   highlight:"75 attempt; third shift; WBCS preparation/news guidance requested.",
+   imgKey:"clerk24_19",stars:5,sourceFile:"IMG_20260618_082942_123.jpg"},
+
+  {name:"Clerkship 2024 Student — 75+",exam:"Clerkship",year:"2024",
+   score:"75+",priority:"top",
+   highlight:"75+ আশা করছে; Railway NTPC suggestion/help appreciated.",
+   imgKey:"clerk24_20",stars:5,sourceFile:"IMG_20260618_082943_611.jpg"},
+
+  {name:"Clerkship 2024 Student — 73 Correct",exam:"Clerkship",year:"2024",
+   score:"73",priority:"top",
+   highlight:"1st shift; 80–81 attempt, around 73 correct; cutoff gap জানতে চেয়েছে.",
+   imgKey:"clerk24_21",stars:5,sourceFile:"IMG_20260618_082940_799.jpg"},
+
+  {name:"Clerkship 2024 Student — 73 Correct",exam:"Clerkship",year:"2024",
+   score:"73",priority:"top",
+   highlight:"1st shift; 80–81 attempt, around 73 correct; cutoff gap জানতে চেয়েছে.",
+   imgKey:"clerk24_22",stars:5,sourceFile:"IMG_20260618_082942_757.jpg"},
+
+  {name:"Clerkship 2024 Student — 70+",exam:"Clerkship",year:"2024",
+   score:"70+",priority:"top",
+   highlight:"Exam ভালো; 70+ score feedback; review with positive response.",
+   imgKey:"clerk24_23",stars:5,sourceFile:"IMG_20260618_082943_841.jpg"},
+
+  {name:"Clerkship 2024 Student — 59",exam:"Clerkship",year:"2024",
+   score:"59",priority:"top",
+   highlight:"Clerkship মোটামুটি হয়েছে, 59; next NTPC/WBCS focus suggested.",
+   imgKey:"clerk24_24",stars:5,sourceFile:"IMG_20260618_082943_968.jpg"},
+
+  {name:"Clerkship 2024 Student — 83 Attempt",exam:"Clerkship",year:"2024",
+   score:"83",priority:"top",
+   highlight:"Good morning feedback; 83 attempt, 3–4 ভুল হতে পারে।",
+   imgKey:"clerk24_25",stars:5,sourceFile:"IMG_20260618_082939_591.jpg"},
+
+  {name:"Clerkship 2024 Student — Exam ভালো",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"top",
+   highlight:"Clerkship set issue solved; later exam ভালো হয়েছে feedback.",
+   imgKey:"clerk24_26",stars:5,sourceFile:"IMG_20260618_082940_391.jpg"},
+
+  {name:"Clerkship 2024 Student — Common Feedback",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"top",
+   highlight:"Exam মোটামুটি ভালো; WBCS preparation start করার feedback.",
+   imgKey:"clerk24_27",stars:5,sourceFile:"IMG_20260618_082940_031.jpg"},
+
+  {name:"Clerkship 2024 Student — 3rd Shift",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"top",
+   highlight:"3rd shift; tension কাটিয়ে exam খুব ভালো হয়েছে।",
+   imgKey:"clerk24_28",stars:5,sourceFile:"IMG_20260618_082941_506.jpg"},
+
+  {name:"Clerkship 2024 Student — Question Sorted",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"top",
+   highlight:"1st shift; question sorted-out/cutoff effect নিয়ে আশ্বস্ত feedback.",
+   imgKey:"clerk24_29",stars:5,sourceFile:"IMG_20260618_082943_601.jpg"},
+
+  {name:"Clerkship 2024 Student — Question Sorted",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"top",
+   highlight:"1st shift; question sorted-out/cutoff effect নিয়ে আশ্বস্ত feedback.",
+   imgKey:"clerk24_30",stars:5,sourceFile:"IMG_20260618_082942_973.jpg"},
+
+  {name:"Clerkship 2024 Student — Question Sorted",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"top",
+   highlight:"1st shift; question sorted-out/cutoff effect নিয়ে আশ্বস্ত feedback.",
+   imgKey:"clerk24_31",stars:5,sourceFile:"IMG_20260618_082943_733.jpg"},
+
+  {name:"Clerkship 2024 Student — NTPC Query",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"top",
+   highlight:"Exam ঠিকঠাক হয়েছে; Railway NTPC mock query and WBCS remaining set guidance.",
+   imgKey:"clerk24_32",stars:5,sourceFile:"IMG_20260618_082943_603.jpg"},
+
+  {name:"Clerkship 2024 Student — NTPC Query",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"top",
+   highlight:"Exam ঠিকঠাক হয়েছে; Railway NTPC mock query and WBCS remaining set guidance.",
+   imgKey:"clerk24_33",stars:5,sourceFile:"IMG_20260618_082943_738.jpg"},
+
+  {name:"Clerkship 2024 Student — 83 Attempt",exam:"Clerkship",year:"2024",
+   score:"83",priority:"top",
+   highlight:"2nd shift; question moderate to hard; 83 attempt, Math 29 correct.",
+   imgKey:"clerk24_34",stars:5,sourceFile:"IMG_20260618_082942_696.jpg"},
+
+  // <<< END CLERKSHIP 2024 TOP REVIEW DATA BLOCK
+  // >>> CLERKSHIP 2024 SELECTED DATA BLOCK
+  {name:"Clerkship 2024 Student — Positive Review 1",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_01",stars:5,sourceFile:"IMG_20260620_134008_550.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 2",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_02",stars:5,sourceFile:"IMG_20260620_134008_974.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 3",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_03",stars:5,sourceFile:"IMG_20260620_134009_401.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 4",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_04",stars:5,sourceFile:"IMG_20260620_134009_913.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 5",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_05",stars:5,sourceFile:"IMG_20260620_134009_927.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 6",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_06",stars:5,sourceFile:"IMG_20260620_134010_031.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 7",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_07",stars:5,sourceFile:"IMG_20260620_134010_108.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 8",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_08",stars:5,sourceFile:"IMG_20260620_134010_269.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 9",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_09",stars:5,sourceFile:"IMG_20260620_134010_353.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 10",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_10",stars:5,sourceFile:"IMG_20260620_134010_475.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 11",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_11",stars:5,sourceFile:"IMG_20260620_134010_715.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 12",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_12",stars:5,sourceFile:"IMG_20260620_134010_890.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 13",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_13",stars:5,sourceFile:"IMG_20260620_134010_896.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 14",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_14",stars:5,sourceFile:"IMG_20260620_134011_005.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 15",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_15",stars:5,sourceFile:"IMG_20260620_134011_093.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 16",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_16",stars:5,sourceFile:"IMG_20260620_134011_239.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 17",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_17",stars:5,sourceFile:"IMG_20260620_134011_383.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 18",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_18",stars:5,sourceFile:"IMG_20260620_134011_704.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 19",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_19",stars:5,sourceFile:"IMG_20260620_134011_775.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 20",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_20",stars:5,sourceFile:"IMG_20260620_134011_803.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 21",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_21",stars:5,sourceFile:"IMG_20260620_134011_862.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 22",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_22",stars:5,sourceFile:"IMG_20260620_134011_907.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 23",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_23",stars:5,sourceFile:"IMG_20260620_134012_000.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 24",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_24",stars:5,sourceFile:"IMG_20260620_134012_318.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 25",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_25",stars:5,sourceFile:"IMG_20260620_134012_346.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 26",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_26",stars:5,sourceFile:"IMG_20260620_134012_390.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 27",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_27",stars:5,sourceFile:"IMG_20260620_134012_431.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 28",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_28",stars:5,sourceFile:"IMG_20260620_134012_621.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 29",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_29",stars:5,sourceFile:"IMG_20260620_134012_822.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 30",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_30",stars:5,sourceFile:"IMG_20260620_134012_924.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 31",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_31",stars:5,sourceFile:"IMG_20260620_134013_696.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 32",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_32",stars:5,sourceFile:"IMG_20260620_134013_697.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 33",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_33",stars:5,sourceFile:"IMG_20260620_134014_009.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 34",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_34",stars:5,sourceFile:"IMG_20260620_134014_027.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 35",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_35",stars:5,sourceFile:"IMG_20260620_134014_112.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 36",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_36",stars:5,sourceFile:"IMG_20260620_134014_166.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 37",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_37",stars:5,sourceFile:"IMG_20260620_134014_516.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 38",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_38",stars:5,sourceFile:"IMG_20260620_134014_663.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 39",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_39",stars:5,sourceFile:"IMG_20260620_134014_842.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 40",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_40",stars:5,sourceFile:"IMG_20260620_134014_988.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 41",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_41",stars:5,sourceFile:"IMG_20260620_134015_049.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 42",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_42",stars:5,sourceFile:"IMG_20260620_134015_090.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 43",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_43",stars:5,sourceFile:"IMG_20260620_134015_154.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 44",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_44",stars:5,sourceFile:"IMG_20260620_134015_292.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 45",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_45",stars:5,sourceFile:"IMG_20260620_134015_574.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 46",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_46",stars:5,sourceFile:"IMG_20260620_134015_734.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 47",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_47",stars:5,sourceFile:"IMG_20260620_134015_835.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 48",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_48",stars:5,sourceFile:"IMG_20260620_134015_943.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 49",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_49",stars:5,sourceFile:"IMG_20260620_134016_008.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 50",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_50",stars:5,sourceFile:"IMG_20260620_134016_093.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 51",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_51",stars:5,sourceFile:"IMG_20260620_134016_109.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 52",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_52",stars:5,sourceFile:"IMG_20260620_134016_411.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 53",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_53",stars:5,sourceFile:"IMG_20260620_134016_564.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 54",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_54",stars:5,sourceFile:"IMG_20260620_134016_617.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 55",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_55",stars:5,sourceFile:"IMG_20260620_134017_026.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 56",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_56",stars:5,sourceFile:"IMG_20260620_134017_198.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 57",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_57",stars:5,sourceFile:"IMG_20260620_134017_207.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 58",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_58",stars:5,sourceFile:"IMG_20260620_134017_280.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 59",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_59",stars:5,sourceFile:"IMG_20260620_134017_301.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 60",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_60",stars:5,sourceFile:"IMG_20260620_134017_304.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 61",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_61",stars:5,sourceFile:"IMG_20260620_134017_987.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 62",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_62",stars:5,sourceFile:"IMG_20260620_134018_077.jpg"},
+
+  {name:"Clerkship 2024 Student — Positive Review 63",exam:"Clerkship",year:"2024",
+   score:"Positive",priority:"selected",
+   highlight:"Clerkship 2024 batch — positive student review.",
+   imgKey:"clerk24sel_63",stars:5,sourceFile:"IMG_20260620_134018_246.jpg"},
+
+  // <<< END CLERKSHIP 2024 SELECTED DATA BLOCK
+
+
+  /* ══════════════ WBCS 2023 BATCH ══════════════ */
+  {name:"WBCS 2023 Student (1)",exam:"WBCS",year:"2023",
+   score:"—",priority:"top",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_01",stars:5},
+
+  {name:"WBCS 2023 Student (2)",exam:"WBCS",year:"2023",
+   score:"—",priority:"top",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_02",stars:5},
+
+  {name:"WBCS 2023 Student (3)",exam:"WBCS",year:"2023",
+   score:"—",priority:"top",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_03",stars:5},
+
+  {name:"WBCS 2023 Student (4)",exam:"WBCS",year:"2023",
+   score:"—",priority:"top",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_04",stars:5},
+
+  {name:"WBCS 2023 Student (5)",exam:"WBCS",year:"2023",
+   score:"—",priority:"top",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_05",stars:5},
+
+  {name:"WBCS 2023 Student (6)",exam:"WBCS",year:"2023",
+   score:"—",priority:"top",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_06",stars:5},
+
+  {name:"WBCS 2023 Student (7)",exam:"WBCS",year:"2023",
+   score:"—",priority:"top",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_07",stars:5},
+
+  {name:"WBCS 2023 Student (8)",exam:"WBCS",year:"2023",
+   score:"—",priority:"top",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_08",stars:5},
+
+  {name:"WBCS 2023 Student (9)",exam:"WBCS",year:"2023",
+   score:"—",priority:"top",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_09",stars:5},
+
+  {name:"WBCS 2023 Student (10)",exam:"WBCS",year:"2023",
+   score:"—",priority:"top",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_10",stars:5},
+
+  {name:"WBCS 2023 Student (11)",exam:"WBCS",year:"2023",
+   score:"—",priority:"top",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_11",stars:5},
+
+  {name:"WBCS 2023 Student (12)",exam:"WBCS",year:"2023",
+   score:"—",priority:"top",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_12",stars:5},
+
+  {name:"WBCS 2023 Student (13)",exam:"WBCS",year:"2023",
+   score:"—",priority:"top",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_13",stars:5},
+
+  {name:"WBCS 2023 Student (14)",exam:"WBCS",year:"2023",
+   score:"—",priority:"top",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_14",stars:5},
+
+  {name:"WBCS 2023 Student (15)",exam:"WBCS",year:"2023",
+   score:"—",priority:"top",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_15",stars:5},
+
+  {name:"WBCS 2023 Student (16)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_16",stars:5},
+
+  {name:"WBCS 2023 Student (17)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_17",stars:5},
+
+  {name:"WBCS 2023 Student (18)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_18",stars:5},
+
+  {name:"WBCS 2023 Student (19)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_19",stars:5},
+
+  {name:"WBCS 2023 Student (20)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_20",stars:5},
+
+  {name:"WBCS 2023 Student (21)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_21",stars:5},
+
+  {name:"WBCS 2023 Student (22)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_22",stars:5},
+
+  {name:"WBCS 2023 Student (23)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_23",stars:5},
+
+  {name:"WBCS 2023 Student (24)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_24",stars:5},
+
+  {name:"WBCS 2023 Student (25)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_25",stars:5},
+
+  {name:"WBCS 2023 Student (26)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_26",stars:5},
+
+  {name:"WBCS 2023 Student (27)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_27",stars:5},
+
+  {name:"WBCS 2023 Student (28)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_28",stars:5},
+
+  {name:"WBCS 2023 Student (29)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_29",stars:5},
+
+  {name:"WBCS 2023 Student (30)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_30",stars:5},
+
+  {name:"WBCS 2023 Student (31)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_31",stars:5},
+
+  {name:"WBCS 2023 Student (32)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_32",stars:5},
+
+  {name:"WBCS 2023 Student (33)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_33",stars:5},
+
+  {name:"WBCS 2023 Student (34)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_34",stars:5},
+
+  {name:"WBCS 2023 Student (35)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_35",stars:5},
+
+  {name:"WBCS 2023 Student (36)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_36",stars:5},
+
+  {name:"WBCS 2023 Student (37)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_37",stars:5},
+
+  {name:"WBCS 2023 Student (38)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_38",stars:5},
+
+  {name:"WBCS 2023 Student (39)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_39",stars:5},
+
+  {name:"WBCS 2023 Student (40)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_40",stars:5},
+
+  {name:"WBCS 2023 Student (41)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_41",stars:5},
+
+  {name:"WBCS 2023 Student (42)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_42",stars:5},
+
+  {name:"WBCS 2023 Student (43)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_43",stars:5},
+
+  {name:"WBCS 2023 Student (44)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_44",stars:5},
+
+  {name:"WBCS 2023 Student (45)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_45",stars:5},
+
+  {name:"WBCS 2023 Student (46)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_46",stars:5},
+
+  {name:"WBCS 2023 Student (47)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_47",stars:5},
+
+  {name:"WBCS 2023 Student (48)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_48",stars:5},
+
+  {name:"WBCS 2023 Student (49)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_49",stars:5},
+
+  {name:"WBCS 2023 Student (50)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_50",stars:5},
+
+  {name:"WBCS 2023 Student (51)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_51",stars:5},
+
+  {name:"WBCS 2023 Student (52)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_52",stars:5},
+
+  {name:"WBCS 2023 Student (53)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_53",stars:5},
+
+  {name:"WBCS 2023 Student (54)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_54",stars:5},
+
+  {name:"WBCS 2023 Student (55)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_55",stars:5},
+
+  {name:"WBCS 2023 Student (56)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_56",stars:5},
+
+  {name:"WBCS 2023 Student (57)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_57",stars:5},
+
+  {name:"WBCS 2023 Student (58)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_58",stars:5},
+
+  {name:"WBCS 2023 Student (59)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_59",stars:5},
+
+  {name:"WBCS 2023 Student (60)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_60",stars:5},
+
+  {name:"WBCS 2023 Student (61)",exam:"WBCS",year:"2023",
+   score:"—",priority:"normal",
+   highlight:"WBCS 2023 Batch — Student Review",
+   imgKey:"wbcs23_61",stars:5},
+];
+
+/* ══════════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════════ */
+const tagCls = {WBCS:"tag-wbcs",Miscellaneous:"tag-misc",Clerkship:"tag-clerk",Officers:"tag-officers"};
+const tagLbl = {WBCS:"WBCS",Miscellaneous:"Misc.",Clerkship:"Clerk",Officers:"Officer"};
+function stars(n){return "★".repeat(n)+"☆".repeat(5-n)}
+
+// Lightbox image list
+let lbImgs = [], lbIdx = 0;
+function openLb(key){
+  lbImgs = Object.keys(IMGS);
+  lbIdx = lbImgs.indexOf(key);
+  if(lbIdx<0) lbIdx=0;
+  document.getElementById('lb-img').src = IMGS[key]||'';
+  document.getElementById('lb').classList.add('open');
+}
+document.getElementById('lb-close').addEventListener('click',()=>document.getElementById('lb').classList.remove('open'));
+document.getElementById('lb').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open')});
+document.getElementById('lb-prev').addEventListener('click',()=>{
+  lbIdx=(lbIdx-1+lbImgs.length)%lbImgs.length;
+  document.getElementById('lb-img').src=IMGS[lbImgs[lbIdx]]||'';
+});
+document.getElementById('lb-next').addEventListener('click',()=>{
+  lbIdx=(lbIdx+1)%lbImgs.length;
+  document.getElementById('lb-img').src=IMGS[lbImgs[lbIdx]]||'';
+});
+
+/* ── SLIDE HTML ── */
+function slideHTML(r){
+  const imgSrc = r.imgKey && IMGS[r.imgKey] ? IMGS[r.imgKey] : "";
+  const topBadge = r.priority==="officer" ? `<span class="top-badge" style="background:linear-gradient(90deg,#2962ff,#82b1ff);color:#fff">🎖️ OFFICER</span>` : (r.priority==="top" || (r.exam==="WBCS" && (r.year==="2024" || r.year==="2022")) ? `<span class="top-badge">⭐ TOP REVIEW</span>` : (r.priority==="selected" ? `<span class="top-badge selected-badge">✅ Selected</span>` : ""));
+  return `<div class="slide">
+    <div class="sc-card">
+      <div class="sc-topbar" style="background:linear-gradient(135deg,var(--primary),var(--primary2))">
+        <span class="sc-tag ${tagCls[r.exam]||'tag-wbcs'}">${tagLbl[r.exam]||r.exam} ${r.year}</span>
+        <span class="sc-score">D1STUDY</span>
+        ${topBadge}
+      </div>
+      ${imgSrc
+        ? `<div class="sc-img-wrap" onclick="openLb('${r.imgKey}')">
+             <img src="${imgSrc}" alt="${r.name}" loading="lazy">
+           </div>`
+        : `<div style="padding:22px 20px 14px;font-family:'Noto Sans Bengali',sans-serif;font-size:14px;line-height:1.8;color:#333;min-height:110px">
+             <div style="font-size:34px;color:#e8ecff;font-family:Georgia,serif;line-height:1;margin-bottom:8px">"</div>
+             ${r.highlight}
+           </div>`
+      }
+      <div class="sc-footer">
+        <span class="stars">${stars(r.stars||5)}</span>
+        <span class="wa-tag">💬 WhatsApp</span>
+        <span class="sc-date">${r.exam} ${r.year}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ── SORT: top-priority প্রথমে ── */
+
+function parseScore(s) {
+  if (!s) return 0;
+  let m = String(s).match(/(\d+(\.\d+)?)/);
+  return m ? parseFloat(m[0]) : 0;
+}
+
+function sortReviews(arr){
+  return [...arr].sort((a,b)=>{
+    if(a.priority==="selected" && b.priority!=="selected") return -1;
+    if(a.priority!=="selected" && b.priority==="selected") return 1;
+    if(a.priority==="top" && b.priority!=="top") return -1;
+    if(a.priority!=="top" && b.priority==="top") return 1;
+    let scoreA = parseScore(a.score);
+    let scoreB = parseScore(b.score);
+    return scoreB - scoreA;
+  });
+}
+
+/* ── SLIDER INIT ── */
+function initSlider(sid, count){
+  window.sliderTimers = window.sliderTimers || {};
+  if(window.sliderTimers[sid]) clearInterval(window.sliderTimers[sid]);
+  
+  const track = document.getElementById(`tr_${sid}`);
+  const dotsEl = document.getElementById(`dt_${sid}`);
+  const prevBtn = document.getElementById(`pr_${sid}`);
+  const nextBtn = document.getElementById(`nx_${sid}`);
+  const counter = document.getElementById(`co_${sid}`);
+  if(!track||count===0) return;
+  let cur=0;
+  dotsEl.innerHTML = Array.from({length:count},(_,i)=>
+    `<button class="dot${i===0?" active":""}" data-i="${i}"></button>`).join("");
+  function go(n){
+    cur=(n+count)%count;
+    track.style.transform=`translateX(-${cur*100}%)`;
+    dotsEl.querySelectorAll(".dot").forEach((d,i)=>d.classList.toggle("active",i===cur));
+    counter.textContent=`${cur+1}/${count}`;
+  }
+  prevBtn.addEventListener("click",()=>go(cur-1));
+  nextBtn.addEventListener("click",()=>go(cur+1));
+  dotsEl.querySelectorAll(".dot").forEach(d=>d.addEventListener("click",()=>{
+    go(+d.dataset.i);
+    if(window.sliderTimers[sid]) clearInterval(window.sliderTimers[sid]);
+    window.sliderTimers[sid] = setInterval(()=>go(cur+1),5000);
+  }));
+  
+  window.sliderTimers[sid] = setInterval(()=>go(cur+1),5000);
+  [prevBtn,nextBtn].forEach(b=>b.addEventListener("click",()=>{
+    if(window.sliderTimers[sid]) clearInterval(window.sliderTimers[sid]);
+    window.sliderTimers[sid] = setInterval(()=>go(cur+1),5000);
+  }));
+  go(0);
+}
+
+/* ── SHUFFLE BATCH REVIEWS ── */
+function shuffleBatchReviews(arr) {
+  if (!arr || arr.length <= 1) return arr;
+  let topPool = arr.filter(r => r.priority === "selected" || r.priority === "top" || parseScore(r.score) >= 115 || r.score.includes("Selected") || r.score.includes("Qualify") || r.highlight.includes("common") || r.highlight.includes("কমন"));
+  if (topPool.length < Math.min(arr.length, 5)) topPool = [...arr];
+  let others = arr.filter(r => !topPool.includes(r));
+  topPool.sort(() => Math.random() - 0.5);
+  others.sort(() => Math.random() - 0.5);
+  return [...topPool, ...others];
+}
+
+/* ── BUILD YEAR-WISE SECTION ── */
+function buildSection(panelId, data, examKey){
+  const panel=document.getElementById(panelId);
+  const hlMap = {
+    WBCS:"🏆 WBCS পরীক্ষায় প্রতি বছর (2021,2022,2023,2024) D1STUDY-এর Practice Set থেকে 𝐑𝐞𝐜𝐨𝐫𝐝 𝐁𝐫𝐞𝐚𝐤𝐢𝐧𝐠 𝐂𝐨𝐦𝐦𝐨𝐧𝐬 এসেছে। ✨ তারই কিছু  Student Feedback 📸 আপনাদের সঙ্গে শেয়ার করা হলো।✨প্রতিটি Feedback আমাদের কাছে শুধু একটি Achievement নয়; বরং এটি প্রমাণ করে যে সঠিক Guidance, নিয়মিত আমাদের Practice এবং দৃঢ় সংকল্প থাকলে সাফল্য কখনোই কাকতালীয় নয়—এটি হয়ে ওঠে একটি নিশ্চিত সম্ভাবনা।🎯 🌟",
+    Miscellaneous:"🏆Miscellaneous পরীক্ষায় D1STUDY প্র্যাক্টিস সেট থেকে 𝐑𝐞𝐜𝐨𝐫𝐝 𝐁𝐫𝐞𝐚𝐤𝐢𝐧𝐠 𝐂𝐨𝐦𝐦𝐨𝐧𝐬 এসেছে। 🔥তারই কিছু  Student Feedback 📸 আপনাদের সঙ্গে শেয়ার করা হলো। ✨প্রতিটি Feedback আমাদের কাছে শুধু একটি Achievement নয়; বরং এটি প্রমাণ করে যে সঠিক Guidance, নিয়মিত আমাদের Practice এবং দৃঢ় সংকল্প থাকলে সাফল্য কখনোই কাকতালীয় নয়—এটি হয়ে ওঠে একটি নিশ্চিত সম্ভাবনা।🎯",
+    Clerkship:"🏆পরীক্ষায় D1STUDY প্র্যাকটিসের থেকে  বিপুলসংখ্যক কোশেন কমন পেয়েছেন ছাত্রছাত্রীরা 🔥 তারই কিছু  Student Feedback আপনাদের সঙ্গে শেয়ার করা হলো।✨প্রতিটি Feedback আমাদের কাছে শুধু একটি Achievement নয়; বরং এটি প্রমাণ করে যে সঠিক Guidance, নিয়মিত আমাদের Practice এবং দৃঢ় সংকল্প থাকলে সাফল্য কখনোই কাকতালীয় নয়—এটি হয়ে ওঠে একটি নিশ্চিত সম্ভাবনা।🎯"
+  };
+
+  let out=`<div class="hl-bar" style="background:${currentHlBg};border-color:${currentHlBorder}">
+    <span class="hl-icon">🎯</span>
+    <span class="hl-text" style="color:${currentHlText}">${hlMap[examKey]||""}</span>
+  </div>`;
+
+  const allYears=["2024","2023","2022"];
+  allYears.forEach(yr=>{
+    const yRevs = data.filter(r=>r.year===yr);
+    if(!yRevs.length){
+      out+=`<div class="year-block empty-block" data-year="${yr}">
+        <div class="year-header">
+          <div class="year-pill">📅 ${yr} Batch</div>
+          <div class="year-line"></div>
+          <div class="year-count">0টি রিভিউ</div>
+        </div>
+        <div class="empty">🔜 ${yr} ব্যাচের রিভিউ শীঘ্রই আসছে।</div>
+      </div>`;
+      return;
+    }
+    const yData = shuffleBatchReviews(yRevs);
+    const sid=`${panelId}_${yr}`;
+    out+=`<div class="year-block" data-year="${yr}">
+      <div class="year-header">
+        <div class="year-pill">📅 ${yr} Batch</div>
+        <div class="year-line"></div>
+        <div class="year-count">${yData.length}টি রিভিউ</div>
+      </div>
+      <div class="slider-outer">
+        <div class="slider-box"><div class="slider-track" id="tr_${sid}">${yData.map(slideHTML).join("")}</div></div>
+        <div class="controls">
+          <button class="arr" id="pr_${sid}">&#8592;</button>
+          <div class="dots" id="dt_${sid}"></div>
+          <span class="counter" id="co_${sid}"></span>
+          <button class="arr" id="nx_${sid}">&#8594;</button>
+        </div>
+      </div>
+    </div>`;
+  });
+  panel.innerHTML=out;
+
+  allYears.forEach(yr=>{
+    const yData=data.filter(r=>r.year===yr);
+    if(yData.length) initSlider(`${panelId}_${yr}`, yData.length);
+  });
+}
+
+/* ── BUILD ALL PANEL ── */
+
+
+/* ── BUILD OFFICERS SECTION ── */
+function buildOfficersSection(){
+  const panel = document.getElementById("panel-officers");
+  if(!panel) return;
+  const hlText = "🌟 প্রতিটি সাফল্যের গল্প শুধুমাত্র একটি Review বা Scorecard নয়—এটি  Students-দের নিরলস পরিশ্রম, ধারাবাহিক অনুশীলন এবং লক্ষ্যপূরণের প্রতি অটুট প্রতিশ্রুতির এক উজ্জ্বল প্রতিফলন। প্রতিটি ইতিবাচক অভিজ্ঞতার পেছনে রয়েছে অসংখ্য ঘণ্টার অধ্যয়ন, নিয়মিত Mock Test, গভীর বিশ্লেষণ এবং নিজেকে প্রতিনিয়ত আরও উন্নত করার এক অবিচল প্রচেষ্টা।";
+  let out = `<div class="hl-bar" style="background:${currentHlBg};border-color:${currentHlBorder}">
+    <span class="hl-icon">🎖️</span>
+    <span class="hl-text" style="color:${currentHlText}">${hlText}</span>
+  </div>`;
+
+  const allYears=["2024","2023","2022"];
+  allYears.forEach(yr=>{
+    const yData = officersData.map(item => ({...item, year: yr}));
+    const sid = `panel-officers_${yr}`;
+    out += `<div class="year-block" data-year="${yr}">
+      <div class="year-header">
+        <div class="year-pill" style="background:linear-gradient(135deg, #2962ff, #2979ff); color:#fff">👑 ${yr} Officers Batch</div>
+        <div class="year-line" style="background:linear-gradient(90deg, #2962ff, transparent)"></div>
+        <div class="year-count">${yData.length}টি সাফল্য</div>
+      </div>
+      <div class="slider-outer">
+        <div class="slider-box"><div class="slider-track" id="tr_${sid}">${yData.map(slideHTML).join("")}</div></div>
+        <div class="controls">
+          <button class="arr" id="pr_${sid}">&#8592;</button>
+          <div class="dots" id="dt_${sid}"></div>
+          <span class="counter" id="co_${sid}"></span>
+          <button class="arr" id="nx_${sid}">&#8594;</button>
+        </div>
+      </div>
+    </div>`;
+  });
+  panel.innerHTML = out;
+
+  allYears.forEach(yr=>{
+    initSlider(`panel-officers_${yr}`, officersData.length);
+  });
+}
+
+function buildAllPanel(){
+  const panel=document.getElementById('panel-all');
+  const exams=["WBCS","Clerkship","Miscellaneous"];
+  const allYears=["2024","2023","2022"];
+  let out="";
+
+  exams.forEach(ex=>{
+    const eData=reviews.filter(r=>r.exam===ex);
+    if(!eData.length) return;
+    out+=`<div class="exam-group-header">📌 ${ex} পরীক্ষা — ${eData.length}টি রিভিউ</div>`;
+    allYears.forEach(yr=>{
+      const yRevs=eData.filter(r=>r.year===yr);
+      if(!yRevs.length){
+        out+=`<div class="year-block empty-block" data-year="${yr}">
+          <div class="year-header">
+            <div class="year-pill">📅 ${yr}</div>
+            <div class="year-line"></div>
+            <div class="year-count">0টি</div>
+          </div>
+          <div class="empty">🔜 ${yr} ব্যাচের রিভিউ শীঘ্রই আসছে।</div>
+        </div>`;
+        return;
+      }
+      const yData=shuffleBatchReviews(yRevs);
+      const sid=`all_${ex}_${yr}`;
+      out+=`<div class="year-block" data-year="${yr}">
+        <div class="year-header">
+          <div class="year-pill">📅 ${yr}</div>
+          <div class="year-line"></div>
+          <div class="year-count">${yData.length}টি</div>
+        </div>
+        <div class="slider-outer">
+          <div class="slider-box"><div class="slider-track" id="tr_${sid}">${yData.map(slideHTML).join("")}</div></div>
+          <div class="controls">
+            <button class="arr" id="pr_${sid}">&#8592;</button>
+            <div class="dots" id="dt_${sid}"></div>
+            <span class="counter" id="co_${sid}"></span>
+            <button class="arr" id="nx_${sid}">&#8594;</button>
+          </div>
+        </div>
+      </div>`;
+    });
+  });
+  panel.innerHTML=out;
+  exams.forEach(ex=>{
+    const eData=reviews.filter(r=>r.exam===ex);
+    if(!eData.length) return;
+    allYears.forEach(yr=>{
+      const yData=eData.filter(r=>r.year===yr);
+      if(yData.length) initSlider(`all_${ex}_${yr}`, yData.length);
+    });
+  });
+}
+
+/* ── TABS ── */
+document.querySelectorAll(".tab-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("panel-"+btn.dataset.tab).classList.add("active");
+  });
+});
+
+/* ── YEAR FILTER ── */
+function filterYear(){
+  const selected = document.getElementById('year-filter').value;
+  document.querySelectorAll('.year-block').forEach(block=>{
+    const isEmpty = block.classList.contains('empty-block');
+    if((selected === 'all' && !isEmpty) || block.dataset.year === selected){
+      block.classList.remove('hidden');
+    } else {
+      block.classList.add('hidden');
+    }
+  });
+}
+document.getElementById('year-filter').addEventListener('change', filterYear);
+
+/* ── INIT ── */
+function init(){
+  const wbcs=reviews.filter(r=>r.exam==="WBCS");
+  const misc=reviews.filter(r=>r.exam==="Miscellaneous");
+  const clerk=reviews.filter(r=>r.exam==="Clerkship");
+  document.getElementById("cnt-wbcs").textContent=wbcs.length;
+  document.getElementById("cnt-misc").textContent=misc.length;
+  document.getElementById("cnt-clerk").textContent=clerk.length;
+  document.getElementById("cnt-all").textContent=reviews.length;
+  document.getElementById("total-stat").textContent=reviews.length;
+  document.getElementById("cnt-officers").textContent = officersData.length;
+  buildSection("panel-wbcs", wbcs, "WBCS");
+  buildOfficersSection();
+  buildSection("panel-clerk", clerk, "Clerkship");
+  buildSection("panel-misc", misc, "Miscellaneous");
+  buildAllPanel();
+  filterYear();
+
+  // Hide tabs with zero reviews
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    const cnt = btn.querySelector('.cnt');
+    if (cnt && cnt.textContent.trim() === '0') btn.style.display = 'none';
+  });
+}
+init();
+</script>
+
+</body>
+</html>
